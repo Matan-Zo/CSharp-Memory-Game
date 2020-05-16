@@ -48,10 +48,9 @@
             while (isInstanceActive)
             {
                 setNewGameData();
-                buildBoard(); // getBoardDimentions() 
+                buildDataAndVisualBoard(); // getBoardDimentions() 
                 startGame();
-                showGameOverInformation();
-                isInstanceActive = askIfPlayerWantsAnotherGame();
+                isInstanceActive = GameOver();
             }
             
 
@@ -62,9 +61,9 @@
             m_CurrentDataManager.SetDataForNewGame();
         }
 
-        private void buildBoard()
+        private void buildDataAndVisualBoard()
         {
-            Dimension dimension = m_CurrentViewManager.HandleBoardDimensionAndShowBoard(); // ask ,getInput and show.
+            Coordinate dimension = m_CurrentViewManager.HandleBoardDimensionAndShowBoard(); // ask ,getInput and show.
             m_CurrentDataManager.SetAllBoardsDimensions(dimension); // update for ai if needed.
             m_CurrentDataManager.GenerateBoard();
         }
@@ -124,16 +123,20 @@
 
         private void waitThenHideTiles()
         {
-            Tile tilesToHide[] = new Tile[2];
+            int    amountOfTilesToHide = 2;
+            Tile[] tilesToHide = new Tile[amountOfTilesToHide];
             tilesToHide = m_CurrentDataManager.TilesToHide;
-            m_CurrentViewManager.SleepThenHideTiles(2,tilesToHide);
+            m_CurrentViewManager.SleepThenHideTiles(amountOfTilesToHide,tilesToHide);
         }
 
-        private void showGameOverInformation()
+        private bool GameOver()
         {
-            Player gamePlayers[] = new Player[2];
+            int      amountOfPlayers = 2;
+            bool     isPlayingAgain = false;
+            Player[] gamePlayers = new Player[amountOfPlayers];
             gamePlayers = m_CurrentDataManager.GamePlayers;
-            m_CurrentViewManager.HandleGameOver(playersList);
+            isPlayingAgain = m_CurrentViewManager.HandleGameOver(gamePlayers);
+            return isPlayingAgain;
         }
     }
 }
