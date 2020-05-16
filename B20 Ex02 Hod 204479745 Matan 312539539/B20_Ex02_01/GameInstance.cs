@@ -1,6 +1,6 @@
 ﻿namespace B20_Ex02_01
 {
-    class GameInstance
+    internal class GameInstance
     {
         private GameDataManager m_CurrentDataManager;
         private GameViewManager m_CurrentViewManager;
@@ -50,6 +50,7 @@
                 setNewGameData();
                 buildBoard(); // getBoardDimentions() 
                 startGame();
+                showGameOverInformation();
                 isInstanceActive = askIfPlayerWantsAnotherGame();
             }
             
@@ -63,8 +64,9 @@
 
         private void buildBoard()
         {
-            Point dimension = m_CurrentViewManager.HandleBoardDimension();
+            Dimension dimension = m_CurrentViewManager.HandleBoardDimensionAndShowBoard(); // ask ,getInput and show.
             m_CurrentDataManager.SetAllBoardsDimensions(dimension); // update for ai if needed.
+            m_CurrentDataManager.GenerateBoard();
         }
 
         private void startGame()
@@ -84,21 +86,21 @@
                     m_CurrentDataManager.ChangeTurn();
                 }
             }
-            showGameOverInformation();
+            
         }
 
         private void playTurn()
         {
             int     amountOfTilesToPick = 2;
-            string  playerInput;
-            Tile    pickedTile;
+            string  tileLocationInput;
+            Tile    pickedTile = new Tile();
             for (int i = 0; i < amountOfTilesToPick; i++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
-                    playerInput = m_CurrentViewManager.GetCurrentPlayerPlayInput();
-                    CheckIfQAndQuit(playerInput);
-                    pickedTile = m_CurrentDataManager.GetTile(playerInput);
+                    tileLocationInput = m_CurrentViewManager.HandlePlayerPlay();
+                    quitIfStringsAreEqual(tileLocationInput);
+                    pickedTile = m_CurrentDataManager.GetTileFromBoard(tileLocationInput); 
                 }
                 else
                 {
@@ -107,6 +109,31 @@
 
                 m_CurrentViewManager.RevealTile(pickedTile);
             }
+        }
+
+        private void quitIfStringsAreEqual(string i_FirstStringToCheck)
+        {
+            string quitString = "Q";
+            if (i_FirstStringToCheck.CompareTo(quitString) == 0)
+            {
+                m_CurrentViewManager.HandleQuit(); 
+                System.Environment.Exit(0);
+            }
+            
+        }
+
+        private void waitThenHideTiles()
+        {
+            Tile tilesToHide[] = new Tile[2];
+            tilesToHide = m_CurrentDataManager.TilesToHide;
+            m_CurrentViewManager.SleepThenHideTiles(2,tilesToHide);
+        }
+
+        private void showGameOverInformation()
+        {
+            Player gamePlayers[] = new Player[2];
+            gamePlayers = m_CurrentDataManager.GamePlayers;
+            m_CurrentViewManager.HandleGameOver(playersList);
         }
     }
 }
