@@ -1,6 +1,6 @@
 ﻿namespace B20_Ex02_01
 {
-    class Player
+    internal class Player
     {
         private string m_Name;
         private int m_Score;
@@ -8,7 +8,7 @@
 
         public Player()
         {
-            m_Name = null;
+            m_Name = "Player";
             m_Score = 0;
             m_IsHuman = true;
         }
@@ -31,6 +31,7 @@
             {
                 return m_Score;
             }
+
             set
             {
                 m_Score = value;
@@ -43,6 +44,7 @@
             {
                 return IsHuman;
             }
+
             set
             {
                 IsHuman = value;
