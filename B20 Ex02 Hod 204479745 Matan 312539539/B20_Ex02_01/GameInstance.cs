@@ -13,6 +13,7 @@
         public void InitiateGame()
         {
             askAndGetPlayerNameFromInput();
+            askAndGetGameModeFromInput();
             makePlayerTwo(); // askAndGetisOtherPlayerHumanFromInput()
             activateAndRunInstance();
             
@@ -20,9 +21,27 @@
 
         private void askAndGetPlayerNameFromInput()
         {
-            m_CurrentViewManager.AskForPlayerName();
-            m_CurrentDataManager.MakeNewHumanPlayer();
+            m_CurrentDataManager.PlayerName = (m_CurrentViewManager.HandlePlayerName());
         }
+
+        private void askAndGetGameModeFromInput()
+        {
+            m_CurrentDataManager.GameMode = m_CurrentViewManager.HandleGameMode();
+            
+        }
+
+        private void makePlayerTwo()
+        {
+            if (m_CurrentDataManager.GameMode == 1)
+            {
+                askAndGetPlayerNameFromInput();
+            }
+            else
+            {
+                m_CurrentDataManager.MakeAIPlayer();
+            }
+        }
+
         private void activateAndRunInstance()
         {
             bool isInstanceActive = true;
@@ -35,6 +54,17 @@
             }
             
 
+        }
+
+        private void setNewGameData()
+        {
+            m_CurrentDataManager.SetDataForNewGame();
+        }
+
+        private void buildBoard()
+        {
+            Point dimension = m_CurrentViewManager.HandleBoardDimension();
+            m_CurrentDataManager.SetAllBoardsDimensions(dimension); // update for ai if needed.
         }
 
         private void startGame()
