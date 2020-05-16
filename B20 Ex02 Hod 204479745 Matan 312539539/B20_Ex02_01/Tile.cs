@@ -3,12 +3,12 @@
     internal class Tile
     {
         private Coordinate m_LocationOnBoard;
-        private string m_Data;
+        private char m_Data;
 
         public Tile()
         {
             m_LocationOnBoard = new Coordinate();
-            m_Data = " ";
+            m_Data = ' ';
         }
 
         public Coordinate Location
@@ -24,7 +24,7 @@
             }
         }
 
-        public string Data
+        public char Data
         {
             get
             {
