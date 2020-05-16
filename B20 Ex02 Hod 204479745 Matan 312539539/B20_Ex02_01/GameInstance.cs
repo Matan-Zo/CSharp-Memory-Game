@@ -1,9 +1,10 @@
 ﻿namespace B20_Ex02_01
 {
-    class GameInstance
+    internal class GameInstance
     {
         private GameDataManager m_CurrentDataManager;
         private GameViewManager m_CurrentViewManager;
+
         public GameInstance()
         {
             m_CurrentDataManager = new GameDataManager();

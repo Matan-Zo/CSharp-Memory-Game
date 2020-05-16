@@ -1,6 +1,6 @@
 ﻿namespace B20_Ex02_01
 {
-    class GameDataManager
+    internal class GameDataManager
     {
         private int m_gamemode;
         public int GameMode
