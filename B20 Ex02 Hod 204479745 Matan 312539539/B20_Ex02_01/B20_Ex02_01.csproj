@@ -35,6 +35,7 @@
     <Compile Include="GameDataManager.cs" />
     <Compile Include="GameInstance.cs" />
     <Compile Include="GameViewManager.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
