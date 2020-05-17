@@ -77,7 +77,7 @@
                 if (m_CurrentDataManager.CheckIfCurrentPlayerCorrect())
                 {
                     m_CurrentDataManager.IncrementCurrentPlayerScore();
-                    isGameRunning = m_CurrentDataManager.CheckIfGameOver();
+                    isGameRunning = !(m_CurrentDataManager.CheckIfGameOver());
                 }
                 else
                 {
@@ -92,14 +92,13 @@
         {
             int amountOfTilesToPick = 2;
             string tileLocationInput;
-            Tile pickedTile = new Tile();
-            for (int currentTileNumber = 1; currentTileNumber <= amountOfTilesToPick; currentTileNumber++)
+            for (int currentTurnTileNumber = 1; currentTurnTileNumber <= amountOfTilesToPick; currentTurnTileNumber++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
-                    tileLocationInput = m_CurrentViewManager.AskAndGetVaildInputPlayerPlay(m_CurrentDataManager.VisualBoardMatrix);
+                    tileLocationInput = m_CurrentViewManager.AskAndGetVaildInputPlayerPlay(m_CurrentDataManager.VisualBoardMatrix, currentTurnTileNumber);
                     quitIfStringsAreEqual(tileLocationInput); // if Q then exit
-                    m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTileNumber);
+                    m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTurnTileNumber);
                 }
                 else
                 {
