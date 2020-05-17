@@ -16,7 +16,7 @@
             askAndGetGameModeFromInput();
             makePlayerTwo(); // askAndGetisOtherPlayerHumanFromInput()
             activateAndRunInstance();
-            
+
         }
 
         private void askAndGetPlayerNameFromInput()
@@ -27,7 +27,7 @@
         private void askAndGetGameModeFromInput()
         {
             m_CurrentDataManager.GameMode = m_CurrentViewManager.AskAndGetValidInputGameMode();
-            
+
         }
 
         private void makePlayerTwo()
@@ -52,7 +52,7 @@
                 startGame();
                 isInstanceActive = GameOver();
             }
-            
+
 
         }
 
@@ -85,25 +85,25 @@
                     m_CurrentDataManager.ChangeTurn();
                 }
             }
-            
+
         }
 
         private void playTurn()
         {
-            int     amountOfTilesToPick = 2;
-            string  tileLocationInput;
-            Tile    pickedTile = new Tile();
-            for (int i = 0; i < amountOfTilesToPick; i++)
+            int amountOfTilesToPick = 2;
+            string tileLocationInput;
+            Tile pickedTile = new Tile();
+            for (int currentTileNumber = 1; currentTileNumber <= amountOfTilesToPick; currentTileNumber++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
                     tileLocationInput = m_CurrentViewManager.AskAndGetVaildInputPlayerPlay(m_CurrentDataManager.VisualBoardMatrix);
                     quitIfStringsAreEqual(tileLocationInput); // if Q then exit
-                    m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput); 
+                    m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTileNumber);
                 }
                 else
                 {
-                    pickedTile = m_CurrentDataManager.AIPlay();
+                    m_CurrentDataManager.AIPlay();
                 }
 
                 m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
@@ -115,10 +115,10 @@
             string quitString = "Q";
             if (i_FirstStringToCheck.CompareTo(quitString) == 0)
             {
-                m_CurrentViewManager.HandleQuit(); 
+                m_CurrentViewManager.HandleQuit();
                 System.Environment.Exit(0);
             }
-            
+
         }
 
         private void sleepThenHideTiles()
@@ -131,8 +131,8 @@
 
         private bool GameOver()
         {
-            int      amountOfPlayers = 2;
-            bool     isPlayingAgain = false;
+            int amountOfPlayers = 2;
+            bool isPlayingAgain = false;
             Player[] gamePlayers = new Player[amountOfPlayers];
             gamePlayers = m_CurrentDataManager.GamePlayers;
             isPlayingAgain = m_CurrentViewManager.AskAndGetValidInputCheckIfPlayingAgain(gamePlayers);
