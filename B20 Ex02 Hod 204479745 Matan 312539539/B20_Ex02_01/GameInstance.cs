@@ -21,12 +21,12 @@
 
         private void askAndGetPlayerNameFromInput()
         {
-            m_CurrentDataManager.PlayerName = (m_CurrentViewManager.HandlePlayerName());
+            m_CurrentDataManager.PlayerName = (m_CurrentViewManager.AskAndGetValidInputPlayerName());
         }
 
         private void askAndGetGameModeFromInput()
         {
-            m_CurrentDataManager.GameMode = m_CurrentViewManager.HandleGameMode();
+            m_CurrentDataManager.GameMode = m_CurrentViewManager.AskAndGetValidInputGameMode();
             
         }
 
@@ -63,9 +63,9 @@
 
         private void buildDataAndVisualBoard()
         {
-            Coordinate dimension = m_CurrentViewManager.HandleBoardDimensionAndShowBoard(); // ask ,getInput and show.
-            m_CurrentDataManager.SetAllBoardsDimensions(dimension); // update for ai if needed.
-            m_CurrentDataManager.GenerateBoard();
+            Coordinate dimension = m_CurrentViewManager.AskAndGetValidInputBoardDimension(); // ask ,getInput and show.
+            m_CurrentDataManager.GenerateBoards(dimension);
+            m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private void startGame()
@@ -97,16 +97,16 @@
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
-                    tileLocationInput = m_CurrentViewManager.HandlePlayerPlay();
-                    quitIfStringsAreEqual(tileLocationInput);
-                    pickedTile = m_CurrentDataManager.GetTileFromBoard(tileLocationInput); 
+                    tileLocationInput = m_CurrentViewManager.AskAndGetVaildInputPlayerPlay(m_CurrentDataManager.VisualBoardMatrix);
+                    quitIfStringsAreEqual(tileLocationInput); // if Q then exit
+                    m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput); 
                 }
                 else
                 {
                     pickedTile = m_CurrentDataManager.AIPlay();
                 }
 
-                m_CurrentViewManager.RevealTile(pickedTile);
+                m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
             }
         }
 
@@ -121,12 +121,12 @@
             
         }
 
-        private void waitThenHideTiles()
+        private void sleepThenHideTiles()
         {
-            int    amountOfTilesToHide = 2;
-            Tile[] tilesToHide = new Tile[amountOfTilesToHide];
-            tilesToHide = m_CurrentDataManager.TilesToHide;
-            m_CurrentViewManager.SleepThenHideTiles(amountOfTilesToHide,tilesToHide);
+            int timeToSleep = 2;
+            sleep(timeToSleep);
+            m_CurrentDataManager.HideCurrentTurnTiles();
+            m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private bool GameOver()
@@ -135,7 +135,7 @@
             bool     isPlayingAgain = false;
             Player[] gamePlayers = new Player[amountOfPlayers];
             gamePlayers = m_CurrentDataManager.GamePlayers;
-            isPlayingAgain = m_CurrentViewManager.HandleGameOver(gamePlayers);
+            isPlayingAgain = m_CurrentViewManager.AskAndGetValidInputCheckIfPlayingAgain(gamePlayers);
             return isPlayingAgain;
         }
     }
