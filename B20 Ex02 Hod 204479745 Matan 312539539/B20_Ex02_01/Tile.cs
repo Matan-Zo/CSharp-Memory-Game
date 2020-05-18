@@ -11,6 +11,12 @@
             m_Data = ' ';
         }
 
+        public void SetTile(Coordinate i_CoordinateToSet, char i_DataToSet)
+        {
+            Location = i_CoordinateToSet;
+            Data = i_DataToSet;
+        }
+
         public Coordinate Location
         {
             get

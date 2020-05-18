@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="GameDataManager.cs" />
     <Compile Include="GameInstance.cs" />
