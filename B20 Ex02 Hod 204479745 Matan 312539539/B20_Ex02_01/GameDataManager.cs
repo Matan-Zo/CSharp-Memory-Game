@@ -16,11 +16,11 @@
         {
             m_GameMode = 0;
             m_NumberOfExposedTiles = 0;
-            generateAllPlayers();
-            generateLastPickedTiles();
+            InitiateAllPlayers();
+            InitiateLastPickedTiles();
         }
 
-        private void generateAllPlayers()
+        private void InitiateAllPlayers()
         {
             m_GamePlayers = new List<Player>(2);
             for (int i = 0; i < m_GamePlayers.Count; i++)
@@ -31,7 +31,7 @@
             m_CurrentPlayerTurn = m_GamePlayers[0];
         }
 
-        private void generateLastPickedTiles()
+        private void InitiateLastPickedTiles()
         {
             m_LastTilePicked = new Tile[2];
             for (int i = 0; i < m_LastTilePicked.Length; i++)
@@ -136,8 +136,8 @@
 
         public void SetChosenTileAsShown(string i_TileLocatin, int i_TileNumber)
         {
-            Coordinate pickedTileLocation = new Coordinate();
-            pickedTileLocation = convertStringToCoordinate();
+            Coordinate pickedTileLocation = null;
+            pickedTileLocation = convertStringToCoordinate(i_TileLocatin);
             char Data = m_DataBoard.GetDataAtLocation(pickedTileLocation);
             m_VisualBoard.SetDataAtLocation(Data, pickedTileLocation);
             m_LastTilePicked[i_TileNumber].SetTile(Data, pickedTileLocation);
@@ -165,6 +165,24 @@
             {
                 m_CurrentPlayerTurn = m_GamePlayers[0];
             }
+        }
+
+        public static Coordinate convertStringToCoordinate(string i_StringBoardLocation)
+        {
+            int xCoordinate, yCoordinate;
+            
+            if (char.IsUpper(i_StringBoardLocation[0]))
+            {
+                xCoordinate = i_StringBoardLocation[0] - 'A';
+            }
+            else
+            {
+                xCoordinate = i_StringBoardLocation[0] - 'a';
+            }
+
+            yCoordinate = (int)char.GetNumericValue(i_StringBoardLocation[1]);
+
+            return new Coordinate(xCoordinate, yCoordinate);
         }
     }
 }

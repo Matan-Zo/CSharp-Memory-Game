@@ -1,11 +1,17 @@
 ﻿namespace B20_Ex02_01
 {
-    internal struct Coordinate
+    internal class Coordinate
     {
-        int m_X;
-        int m_Y;
+        private int m_X;
+        private int m_Y;
 
-        public Coordinate(int i_X = 0, int i_Y = 0)
+        public Coordinate()
+        {
+            m_X = -1;
+            m_Y = -1;
+        }
+
+        public Coordinate(int i_X, int i_Y)
         {
             m_X = i_X;
             m_Y = i_Y;
