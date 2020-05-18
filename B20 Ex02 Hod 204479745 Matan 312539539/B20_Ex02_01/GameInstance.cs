@@ -184,7 +184,7 @@
         private bool askAndGetValidInputCheckIfPlayingAgain()
         {
             StringBuilder isPlayingAgain = null;
-            bool convertedIsPlayingAgain = false;
+            bool          convertedIsPlayingAgain = false;
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.AskAnotherGame);
             isPlayingAgain = getValidInput(InputValidator.eValidationType.IsPlayingAgain);
             convertedIsPlayingAgain = (isPlayingAgain.ToString().CompareTo("true") == 0);
