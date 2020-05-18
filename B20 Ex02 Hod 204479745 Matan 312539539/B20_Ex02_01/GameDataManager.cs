@@ -1,7 +1,9 @@
 ﻿namespace B20_Ex02_01
 {
     using System.Collections.Generic;
-    class GameDataManager
+    using System.Text;
+
+    internal class GameDataManager
     {
         private List<Player> m_GamePlayers;
         private Player m_CurrentPlayerTurn;
@@ -9,7 +11,7 @@
         private Board m_DataBoard;
         private AIPlayer m_AiPlayer;
         private int m_GameMode;
-        private Tile[] m_LastTilePicked;
+        private Coordinate[] m_LastTilePicked;
         private int m_NumberOfExposedTiles;
 
         public GameDataManager()
@@ -33,10 +35,10 @@
 
         private void InitiateLastPickedTiles()
         {
-            m_LastTilePicked = new Tile[2];
+            m_LastTilePicked = new Coordinate[2];
             for (int i = 0; i < m_LastTilePicked.Length; i++)
             {
-                m_LastTilePicked[i] = new Tile();
+                m_LastTilePicked[i] = new Coordinate();
             }
         }
 
@@ -79,7 +81,7 @@
         {
             get
             {
-                return m_VisualBoard.VisualMatrix;
+                return m_VisualBoard.Matrix;
             }
         }
 
@@ -113,8 +115,8 @@
         public bool CheckIfCurrentPlayerCorrect()
         {
             bool isCorrect = false;
-            char TileData1 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[0].Location);
-            char TileData2 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[1].Location);
+            char TileData1 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[0]);
+            char TileData2 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[1]);
 
             if (TileData1 == TileData2)
             {
@@ -134,13 +136,13 @@
             return m_CurrentPlayerTurn.IsHuman;
         }
 
-        public void SetChosenTileAsShown(string i_TileLocatin, int i_TileNumber)
+        public void SetChosenTileAsShown(StringBuilder i_TileLocation, int i_CurrentTurnTileNumber)
         {
             Coordinate pickedTileLocation = null;
-            pickedTileLocation = convertStringToCoordinate(i_TileLocatin);
+            pickedTileLocation = Coordinate.ConvertStringToCoordinate(i_TileLocation);
             char Data = m_DataBoard.GetDataAtLocation(pickedTileLocation);
             m_VisualBoard.SetDataAtLocation(Data, pickedTileLocation);
-            m_LastTilePicked[i_TileNumber].SetTile(Data, pickedTileLocation);
+            m_LastTilePicked[i_CurrentTurnTileNumber].CopyCoordinateData(pickedTileLocation);
         }
 
         public bool CheckIfGameOver()
@@ -165,24 +167,6 @@
             {
                 m_CurrentPlayerTurn = m_GamePlayers[0];
             }
-        }
-
-        public static Coordinate convertStringToCoordinate(string i_StringBoardLocation)
-        {
-            int xCoordinate, yCoordinate;
-            
-            if (char.IsUpper(i_StringBoardLocation[0]))
-            {
-                xCoordinate = i_StringBoardLocation[0] - 'A';
-            }
-            else
-            {
-                xCoordinate = i_StringBoardLocation[0] - 'a';
-            }
-
-            yCoordinate = (int)char.GetNumericValue(i_StringBoardLocation[1]);
-
-            return new Coordinate(xCoordinate, yCoordinate);
         }
     }
 }
