@@ -8,7 +8,7 @@
 
         public Player()
         {
-            m_Name = "Player";
+            m_Name = string.Empty;
             m_Score = 0;
             m_IsHuman = true;
         }
