@@ -25,7 +25,7 @@
         private void InitiateAllPlayers()
         {
             m_GamePlayers = new List<Player>(2);
-            for (int i = 0; i < m_GamePlayers.Count; i++)
+            for (int i = 0; i < m_GamePlayers.Capacity; i++)
             {
                 m_GamePlayers[i] = new Player();
             }
@@ -68,7 +68,7 @@
             {
                 foreach (Player GamePlayer in m_GamePlayers)
                 {
-                    if(GamePlayer.Name == string.Empty)
+                    if (string.IsNullOrEmpty(GamePlayer.Name.ToString()))
                     {
                         GamePlayer.Name = value;
                         break;
@@ -81,7 +81,7 @@
         {
             get
             {
-                return m_VisualBoard.Matrix;
+                return m_VisualBoard;
             }
         }
 
@@ -100,23 +100,24 @@
             }
         }
 
-        public void GenerateBoards(Coordinate i_BoardDimensions)
+        public void GenerateBoards(StringBuilder i_StringBoardDimensions)
         {
-            m_VisualBoard = new Board(i_BoardDimensions);
-            m_DataBoard = new Board(i_BoardDimensions);
+            Coordinate boardDimensions = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_StringBoardDimensions);
+            m_VisualBoard = new Board(boardDimensions);
+            m_DataBoard = new Board(boardDimensions);
             m_DataBoard.FillBoardRandomly();
 
             if (GameMode == 2)
             {
-                m_AiPlayer.GenerateAiBoard(i_BoardDimensions);
+                m_AiPlayer.GenerateAiBoard(i_StringBoardDimensions);
             }
         }
 
         public bool CheckIfCurrentPlayerCorrect()
         {
             bool isCorrect = false;
-            char TileData1 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[0]);
-            char TileData2 = m_DataBoard.GetTileDataAtLocation(m_LastTilePicked[1]);
+            char TileData1 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[0]);
+            char TileData2 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[1]);
 
             if (TileData1 == TileData2)
             {
@@ -139,10 +140,18 @@
         public void SetChosenTileAsShown(StringBuilder i_TileLocation, int i_CurrentTurnTileNumber)
         {
             Coordinate pickedTileLocation = null;
-            pickedTileLocation = Coordinate.ConvertStringToCoordinate(i_TileLocation);
+            pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
             char Data = m_DataBoard.GetDataAtLocation(pickedTileLocation);
             m_VisualBoard.SetDataAtLocation(Data, pickedTileLocation);
             m_LastTilePicked[i_CurrentTurnTileNumber].CopyCoordinateData(pickedTileLocation);
+        }
+
+        public void HideCurrentTurnTiles()
+        {
+            for (int i = 0; i < m_LastTilePicked.Length; i++)
+            {
+                m_VisualBoard.ClearTileAtLocation(m_LastTilePicked[i]);
+            }
         }
 
         public bool CheckIfGameOver()

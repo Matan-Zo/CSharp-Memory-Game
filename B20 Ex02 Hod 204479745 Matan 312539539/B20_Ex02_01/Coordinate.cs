@@ -51,7 +51,7 @@
             }
         }
 
-        public static Coordinate ConvertStringToCoordinate(StringBuilder i_StringBoardLocation)
+        public static Coordinate ConvertBoardCoordinateInputToCoordinate(StringBuilder i_StringBoardLocation)
         {
             int xCoordinate, yCoordinate;
 
