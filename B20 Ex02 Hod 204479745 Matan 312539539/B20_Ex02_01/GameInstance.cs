@@ -1,5 +1,6 @@
 ﻿namespace B20_Ex02_01
 {
+    using System.Text;
     internal class GameInstance
     {
         private GameDataManager m_CurrentDataManager;
@@ -19,15 +20,33 @@
 
         }
 
+        private StringBuilder getValidInput(InputValidator.eValidationType i_ValidateType)
+        {
+            StringBuilder userInput = null;
+            GameMessage.eValidationMessageType validationMessage = GameMessage.eValidationMessageType.Invalid;
+            while (m_ValidationMessage != GameMessage.eValidationMessageType.Valid)
+            {
+                userInput = m_CurrentViewManager.GetUserInput();
+                m_ValidationMessage = m_CurrentDataManager.CheckIfValid(i_ValidateType, userInput);
+                m_CurrentViewManager.PrintIfNotValid(m_ValidationMessage);
+            }
+            return userInput;
+        }
+
         private void askAndGetPlayerNameFromInput()
         {
-            m_CurrentDataManager.PlayerName = (m_CurrentViewManager.AskAndGetValidInputPlayerName());
+            StringBuilder validPlayerName = null;
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetPlayerName);
+            validPlayerName = getValidInput(InputValidator.eValidationType.PlayerName);
+            m_CurrentDataManager.PlayerName = validPlayerName;
         }
 
         private void askAndGetGameModeFromInput()
         {
-            m_CurrentDataManager.GameMode = m_CurrentViewManager.AskAndGetValidInputGameMode();
-
+            StringBuilder validGameMode = null;
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetGameMode);
+            validGameMode = getValidInput(InputValidator.eValidationType.GameMode);
+            m_CurrentDataManager.GameMode = validGameMode;
         }
 
         private void makePlayerTwo()
@@ -63,9 +82,17 @@
 
         private void buildDataAndVisualBoard()
         {
-            Coordinate dimension = m_CurrentViewManager.AskAndGetValidInputBoardDimension(); // ask ,getInput and show.
-            m_CurrentDataManager.GenerateBoards(dimension);
+            StringBuilder validDimensions = AskAndGetValidInputBoardDimensions();
+            m_CurrentDataManager.GenerateBoards(validDimensions);
             m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+        }
+
+        private StringBuilder AskAndGetValidInputBoardDimensions()
+        {
+            StringBuilder validBoardDimensions = null;
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
+            validBoardDimensions = getValidInput(InputValidator.eValidationType.BoardDimensions);
+            return validBoardDimensions;
         }
 
         private void startGame()
@@ -91,12 +118,12 @@
         private void playTurn()
         {
             int amountOfTilesToPick = 2;
-            string tileLocationInput;
+            StringBuilder tileLocationInput;
             for (int currentTurnTileNumber = 1; currentTurnTileNumber <= amountOfTilesToPick; currentTurnTileNumber++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
-                    tileLocationInput = m_CurrentViewManager.AskAndGetVaildInputPlayerPlay(m_CurrentDataManager.VisualBoardMatrix, currentTurnTileNumber);
+                    AskAndGetVaildInputPlayerPlay(currentTurnTileNumber, out tileLocationInput);
                     quitIfStringsAreEqual(tileLocationInput); // if Q then exit
                     m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTurnTileNumber);
                 }
@@ -109,10 +136,26 @@
             }
         }
 
-        private void quitIfStringsAreEqual(string i_FirstStringToCheck)
+        private void AskAndGetVaildInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
+        {
+            GameMessage.eGameMessageType messageType;
+            if (i_CurrentTurnTileNumber == 1)
+            {
+                messageType = GameMessage.eGameMessageType.EnterTileOne;
+            }
+            else
+            {
+                messageType = GameMessage.eGameMessageType.EnterTileTwo;
+            }
+
+            m_CurrentViewManager.ShowMessage(messageType);
+            o_TileLocationInput = getValidInput(InputValidator.eValidationType.GetTileLocation);
+        }
+
+        private void quitIfStringsAreEqual(StringBuilder i_FirstStringToCheck)
         {
             string quitString = "Q";
-            if (i_FirstStringToCheck.CompareTo(quitString) == 0)
+            if (i_FirstStringToCheck.ToString().CompareTo(quitString) == 0)
             {
                 m_CurrentViewManager.HandleQuit();
                 System.Environment.Exit(0);
@@ -136,6 +179,16 @@
             gamePlayers = m_CurrentDataManager.GamePlayers;
             isPlayingAgain = m_CurrentViewManager.AskAndGetValidInputCheckIfPlayingAgain(gamePlayers);
             return isPlayingAgain;
+        }
+
+        private bool askAndGetValidInputCheckIfPlayingAgain()
+        {
+            StringBuilder isPlayingAgain = null;
+            bool          convertedIsPlayingAgain = false;
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.AskAnotherGame);
+            isPlayingAgain = getValidInput(InputValidator.eValidationType.IsPlayingAgain);
+            convertedIsPlayingAgain = (isPlayingAgain.ToString().CompareTo("true") == 0);
+            return convertedIsPlayingAgain;
         }
     }
 }
