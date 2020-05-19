@@ -34,7 +34,10 @@
 
             set
             {
-                m_X = value;
+                if (value >= 0)
+                {
+                    m_X = value;
+                }
             }
         }
 
@@ -47,7 +50,10 @@
 
             set
             {
-                m_Y = value;
+                if (value >= 0)
+                {
+                    m_Y = value;
+                }
             }
         }
 

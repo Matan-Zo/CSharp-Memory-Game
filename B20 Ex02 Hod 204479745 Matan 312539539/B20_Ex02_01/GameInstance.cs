@@ -163,6 +163,7 @@
 
         private void quitIfStringsAreEqual(StringBuilder i_FirstStringToCheck)
         {
+            // TODO: Move this check to the validator.
             string quitString = "Q";
             if (i_FirstStringToCheck.ToString().CompareTo(quitString) == 0)
             {
