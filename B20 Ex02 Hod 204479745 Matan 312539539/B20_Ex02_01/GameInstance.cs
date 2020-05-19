@@ -94,13 +94,13 @@
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
             validBoardDimensions = getValidInput(InputValidator.eValidationType.BoardDimensions);
 
-            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardRow);
-            validBoardRow = getValidInput(InputValidator.eValidationType.BoardDimensions);
-            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardCollum);
-            validBoardCollum = getValidInput(InputValidator.eValidationType.BoardDimensions);
-            validBoardDimensions.Append(validBoardRow);
-            validBoardDimensions.Append(",");
-            validBoardDimensions.Append(validBoardCollum);
+            //m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardRow);
+            //validBoardRow = getValidInput(InputValidator.eValidationType.BoardDimensions);
+            //m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardCollum);
+            //validBoardCollum = getValidInput(InputValidator.eValidationType.BoardDimensions);
+            //validBoardDimensions.Append(validBoardRow);
+            //validBoardDimensions.Append(",");
+            //validBoardDimensions.Append(validBoardCollum);
             return validBoardDimensions;
         }
 
