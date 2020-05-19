@@ -30,12 +30,12 @@
             return messageType;
         }
 
-        private GameMessage.eValidationMessageType checkIfPlayerNameValid(StringBuilder i_StringToValidate)
+        private static GameMessage.eValidationMessageType checkIfPlayerNameValid(StringBuilder i_StringToValidate)
         {
             // TODO: Dont know if we need to validate player name
         }
 
-        private GameMessage.eValidationMessageType checkIfGameModeValid(StringBuilder i_StringToValidate)
+        private static GameMessage.eValidationMessageType checkIfGameModeValid(StringBuilder i_StringToValidate)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidGameMode;
             int gameModeNumber = -1;
@@ -51,7 +51,7 @@
             return messageType;
         }
 
-        private GameMessage.eValidationMessageType checkIfBoardDimensionsValid(StringBuilder i_StringToValidate)
+        private static GameMessage.eValidationMessageType checkIfBoardDimensionsValid(StringBuilder i_StringToValidate)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidDimensions;
             int boardDimension = -1;
@@ -68,12 +68,10 @@
             return messageType;
         }
 
-        private GameMessage.eValidationMessageType checkIfTileValid(StringBuilder i_StringToValidate)
+        private static GameMessage.eValidationMessageType checkIfTileValid(StringBuilder i_StringToValidate)
         {
             // TODO: Still dont know how to check it.
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidTile;
-            char 
-            int boardDimension = -1;
         }
 
         public enum eValidationType
