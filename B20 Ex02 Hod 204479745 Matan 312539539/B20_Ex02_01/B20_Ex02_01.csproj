@@ -37,7 +37,9 @@
     <Compile Include="Coordinate.cs" />
     <Compile Include="GameDataManager.cs" />
     <Compile Include="GameInstance.cs" />
+    <Compile Include="GameMessage.cs" />
     <Compile Include="GameViewManager.cs" />
+    <Compile Include="InputValidator.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Tile.cs" />

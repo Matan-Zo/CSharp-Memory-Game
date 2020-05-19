@@ -124,7 +124,7 @@
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
-                    AskAndGetVaildInputPlayerPlay(currentTurnTileNumber, out tileLocationInput);
+                    AskAndGetValidInputPlayerPlay(currentTurnTileNumber, out tileLocationInput);
                     quitIfStringsAreEqual(tileLocationInput); // if Q then exit
                     m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTurnTileNumber);
                 }
@@ -136,8 +136,8 @@
                 m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
             }
         }
-
-        private void AskAndGetVaildInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
+        
+        private void AskAndGetValidInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
         {
             GameMessage.eGameMessageType messageType;
             if (i_CurrentTurnTileNumber == 1)

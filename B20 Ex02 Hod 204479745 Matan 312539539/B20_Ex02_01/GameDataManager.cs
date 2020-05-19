@@ -113,6 +113,12 @@
             }
         }
 
+        public GameMessage.eValidationMessageType CheckIfValid(InputValidator.eValidationType i_CurrentValidationType, StringBuilder i_UserInput)
+        {
+            GameMessage.eValidationMessageType validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput);
+            return validationType;
+        }
+
         public bool CheckIfCurrentPlayerCorrect()
         {
             bool isCorrect = false;
@@ -143,6 +149,7 @@
             Coordinate pickedTileLocation = null;
             pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
             showTileOnVisualBoard(pickedTileLocation, i_CurrentTurnTileNumber);
+            //sendAiLastPickedTileLocationAndData(Data, m_LastTilePicked[i_CurrentTurnTileNumber]);
         }
 
         private void showTileOnVisualBoard(Coordinate i_TileCoordinateToShow, int i_CurrentTurnTileNumber)
@@ -184,10 +191,18 @@
             }
         }
 
+        /*
+        private void sendAiCurrentVisualBoard(char i_DataFromFromVisualBoard, Coordinate i_TileLocationOnBoard)
+        {
+            AIPlayer.CopyLastPickedTiles(i_DataFromFromVisualBoard, i_TileLocationOnBoard);
+        }
+        */
+        /*
         public void AIPlay(int i_CurrentTurnTileNumber)
         {
             Coordinate aiPickedTile = AIPlayer.PickTile(m_VisualBoard); // TEMP NAME
             showTileOnVisualBoard(aiPickedTile, i_CurrentTurnTileNumber);
         }
+        */
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace B20_Ex02_01
 {
-    using Sysyem.Text;
-    class AIPlayer
+    using System.Text;
+
+    internal class AIPlayer
     {
         private Board m_AiBoard;
 
@@ -12,7 +13,9 @@
 
         public void GenerateAiBoard(StringBuilder i_StringBoardDimensions)
         {
-
+            Coordinate boardDimensions = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_StringBoardDimensions);
+            m_AiBoard = new Board(boardDimensions);
         }
+
     }
 }

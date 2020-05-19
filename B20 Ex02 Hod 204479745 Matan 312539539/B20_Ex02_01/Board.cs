@@ -6,7 +6,7 @@
     internal class Board
     {
         private char[,] m_Matrix;
-        private readonly char r_DefaultData = ' ';
+        private static readonly char sr_DefaultData = ' ';
 
         public Board(Coordinate i_Dimensions)
         {
@@ -15,7 +15,7 @@
             {
                 for (int j=0; j<m_Matrix.GetLength(1);j++)
                 {
-                    m_Matrix[i, j] = r_DefaultData;
+                    m_Matrix[i, j] = sr_DefaultData;
                 }
             }
         }
@@ -27,6 +27,7 @@
                 return m_Matrix;
             }
         }
+
         public int Width
         {
             get
@@ -41,6 +42,11 @@
             {
                 return m_Matrix.GetLength(1);
             }
+        }
+
+        public static char getDefualtTileData()
+        {
+            return sr_DefaultData;
         }
 
         public char GetDataAtLocation(Coordinate i_Location)
@@ -80,7 +86,7 @@
 
         public void ClearTileAtLocation(Coordinate i_Location)
         {
-            SetDataAtLocation(r_DefaultData, i_Location);
+            SetDataAtLocation(sr_DefaultData, i_Location);
         }
 
         public void ClearBoard()
@@ -89,7 +95,7 @@
             {
                 for (int j = 0; j < this.Width; j++)
                 {
-                    m_Matrix[i, j] = r_DefaultData;
+                    m_Matrix[i, j] = sr_DefaultData;
                 }
             }
         }
