@@ -5,6 +5,7 @@
     {
         private GameDataManager m_CurrentDataManager;
         private GameViewManager m_CurrentViewManager;
+
         public GameInstance()
         {
             m_CurrentDataManager = new GameDataManager();
@@ -24,11 +25,11 @@
         {
             StringBuilder userInput = null;
             GameMessage.eValidationMessageType validationMessage = GameMessage.eValidationMessageType.Invalid;
-            while (m_ValidationMessage != GameMessage.eValidationMessageType.Valid)
+            while (validationMessage != GameMessage.eValidationMessageType.Valid)
             {
                 userInput = m_CurrentViewManager.GetUserInput();
-                m_ValidationMessage = m_CurrentDataManager.CheckIfValid(i_ValidateType, userInput);
-                m_CurrentViewManager.PrintIfNotValid(m_ValidationMessage);
+                validationMessage = m_CurrentDataManager.CheckIfValid(i_ValidateType, userInput);
+                m_CurrentViewManager.PrintIfNotValid(validationMessage);
             }
             return userInput;
         }
@@ -129,7 +130,7 @@
                 }
                 else
                 {
-                    m_CurrentDataManager.AIPlay();
+                    m_CurrentDataManager.AIPlay(currentTurnTileNumber);
                 }
 
                 m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);

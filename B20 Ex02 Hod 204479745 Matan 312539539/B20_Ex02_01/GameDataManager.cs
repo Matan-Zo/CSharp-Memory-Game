@@ -122,6 +122,7 @@
             if (TileData1 == TileData2)
             {
                 isCorrect = true;
+                m_NumberOfExposedTiles = +2;
             }
 
             return isCorrect;
@@ -141,9 +142,14 @@
         {
             Coordinate pickedTileLocation = null;
             pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
-            char Data = m_DataBoard.GetDataAtLocation(pickedTileLocation);
-            m_VisualBoard.SetDataAtLocation(Data, pickedTileLocation);
-            m_LastTilePicked[i_CurrentTurnTileNumber].CopyCoordinateData(pickedTileLocation);
+            showTileOnVisualBoard(pickedTileLocation, i_CurrentTurnTileNumber);
+        }
+
+        private void showTileOnVisualBoard(Coordinate i_TileCoordinateToShow, int i_CurrentTurnTileNumber)
+        {
+            char Data = m_DataBoard.GetDataAtLocation(i_TileCoordinateToShow);
+            m_VisualBoard.SetDataAtLocation(Data, i_TileCoordinateToShow);
+            m_LastTilePicked[i_CurrentTurnTileNumber].CopyCoordinateData(i_TileCoordinateToShow);
         }
 
         public void HideCurrentTurnTiles()
@@ -176,6 +182,12 @@
             {
                 m_CurrentPlayerTurn = m_GamePlayers[0];
             }
+        }
+
+        public void AIPlay(int i_CurrentTurnTileNumber)
+        {
+            Coordinate aiPickedTile = AIPlayer.PickTile(m_VisualBoard); // TEMP NAME
+            showTileOnVisualBoard(aiPickedTile, i_CurrentTurnTileNumber);
         }
     }
 }
