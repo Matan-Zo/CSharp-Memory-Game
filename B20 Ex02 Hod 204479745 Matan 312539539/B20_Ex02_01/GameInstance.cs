@@ -1,11 +1,11 @@
 ﻿namespace B20_Ex02_01
 {
     using System.Text;
+    using System.Collections.Generic;
     internal class GameInstance
     {
         private GameDataManager m_CurrentDataManager;
         private GameViewManager m_CurrentViewManager;
-
         public GameInstance()
         {
             m_CurrentDataManager = new GameDataManager();
@@ -29,7 +29,7 @@
             {
                 userInput = m_CurrentViewManager.GetUserInput();
                 validationMessage = m_CurrentDataManager.CheckIfValid(i_ValidateType, userInput);
-                m_CurrentViewManager.PrintIfNotValid(validationMessage);
+                m_CurrentViewManager.ShowValidationMessage(validationMessage);
             }
             return userInput;
         }
@@ -93,6 +93,14 @@
             StringBuilder validBoardDimensions = null;
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
             validBoardDimensions = getValidInput(InputValidator.eValidationType.BoardDimensions);
+
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardRow);
+            validBoardRow = getValidInput(InputValidator.eValidationType.BoardDimensions);
+            m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardCollum);
+            validBoardCollum = getValidInput(InputValidator.eValidationType.BoardDimensions);
+            validBoardDimensions.Append(validBoardRow);
+            validBoardDimensions.Append(",");
+            validBoardDimensions.Append(validBoardCollum);
             return validBoardDimensions;
         }
 
@@ -136,7 +144,7 @@
                 m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
             }
         }
-        
+
         private void AskAndGetValidInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
         {
             GameMessage.eGameMessageType messageType;
@@ -176,9 +184,10 @@
         {
             int amountOfPlayers = 2;
             bool isPlayingAgain = false;
-            Player[] gamePlayers = new Player[amountOfPlayers];
+            List<Player> gamePlayers;
             gamePlayers = m_CurrentDataManager.GamePlayers;
-            isPlayingAgain = m_CurrentViewManager.AskAndGetValidInputCheckIfPlayingAgain(gamePlayers);
+            m_CurrentViewManager.ShowScoreBoard(gamePlayers);
+            isPlayingAgain = askAndGetValidInputCheckIfPlayingAgain();
             return isPlayingAgain;
         }
 
