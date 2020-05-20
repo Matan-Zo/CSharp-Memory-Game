@@ -77,11 +77,11 @@
             }
         }
 
-        public Board VisualBoardMatrix
+        public char[,] VisualBoardMatrix
         {
             get
             {
-                return m_VisualBoard;
+                return m_VisualBoard.Matrix;
             }
         }
 
@@ -115,7 +115,15 @@
 
         public GameMessage.eValidationMessageType CheckIfValid(InputValidator.eValidationType i_CurrentValidationType, StringBuilder i_UserInput)
         {
-            GameMessage.eValidationMessageType validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput);
+            GameMessage.eValidationMessageType validationType;
+            if (i_CurrentValidationType == InputValidator.eValidationType.ValidateTileOnBoard)
+            {
+                validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput, m_DataBoard.Size);
+            }
+            else
+            {
+                validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput);
+            }
             return validationType;
         }
 
@@ -146,10 +154,13 @@
 
         public void SetChosenTileAsShown(StringBuilder i_TileLocation, int i_CurrentTurnTileNumber)
         {
-            Coordinate pickedTileLocation = null;
-            pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
+            Coordinate pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
             showTileOnVisualBoard(pickedTileLocation, i_CurrentTurnTileNumber);
-            //sendAiLastPickedTileLocationAndData(Data, m_LastTilePicked[i_CurrentTurnTileNumber]);
+
+            if (GameMode == 2)
+            {
+                m_AiPlayer.CopyTileDataToBoard(m_VisualBoard.GetDataAtLocation(pickedTileLocation), pickedTileLocation);
+            }
         }
 
         private void showTileOnVisualBoard(Coordinate i_TileCoordinateToShow, int i_CurrentTurnTileNumber)
@@ -191,12 +202,6 @@
             }
         }
 
-        /*
-        private void sendAiCurrentVisualBoard(char i_DataFromFromVisualBoard, Coordinate i_TileLocationOnBoard)
-        {
-            AIPlayer.CopyLastPickedTiles(i_DataFromFromVisualBoard, i_TileLocationOnBoard);
-        }
-        */
         /*
         public void AIPlay(int i_CurrentTurnTileNumber)
         {
