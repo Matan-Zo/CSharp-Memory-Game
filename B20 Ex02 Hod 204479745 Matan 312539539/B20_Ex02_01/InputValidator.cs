@@ -23,7 +23,7 @@
                 case eValidationType.ValidateTile:
                     messageType = checkIfTileValid(i_UserInput);
                     break;
-                case eValidationType.ValidatePlayAgain:
+                case eValidationType.ValidateIsPlayingAgain:
                     messageType = checkIfPlayAgainValid(i_UserInput);
                     break;
             }
@@ -184,7 +184,7 @@
             ValidateBoardDimensions,
             ValidateTile,
             ValidateTileOnBoard,
-            ValidatePlayAgain,
+            ValidateIsPlayingAgain,
         }
     }
 }
