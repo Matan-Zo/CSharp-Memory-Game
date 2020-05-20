@@ -113,7 +113,8 @@
             }
         }
 
-        public GameMessage.eValidationMessageType CheckIfValid(InputValidator.eValidationType i_CurrentValidationType, StringBuilder i_UserInput)
+        public GameMessage.eValidationMessageType CheckIfValid(InputValidator.eValidationType i_CurrentValidationType,
+                                                               StringBuilder i_UserInput)
         {
             GameMessage.eValidationMessageType validationType;
             if (i_CurrentValidationType == InputValidator.eValidationType.ValidateTileOnBoard)

@@ -6,7 +6,9 @@
     {  
         private static readonly StringBuilder sr_QuitString = new StringBuilder("Q");
 
-        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType, StringBuilder i_UserInput)
+        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType,
+                                                                       StringBuilder i_UserInput,
+                                                                       Coordinate i_BoardCoordinate = null)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
             switch (i_CurrentValidationType)
@@ -23,25 +25,20 @@
                 case eValidationType.ValidateTile:
                     messageType = checkIfTileValid(i_UserInput);
                     break;
-                case eValidationType.ValidatePlayAgain:
+                case eValidationType.ValidateTileOnBoard:
+                    messageType = checkIfTileLocationCorrect(i_UserInput, i_BoardCoordinate);
+                    break;
+                case eValidationType.ValidateIsPlayAgain:
                     messageType = checkIfPlayAgainValid(i_UserInput);
                     break;
             }
             return messageType;
         }
 
-        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType,
-                                                                       StringBuilder i_UserInput,
-                                                                       Coordinate i_BoardSize)
-        {
-            GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
-            messageType = checkIfTileLocationCorrect(i_UserInput, i_BoardSize);
-            return messageType;
-        }
-
         private static GameMessage.eValidationMessageType checkIfPlayerNameValid(StringBuilder i_StringToValidate)
         {
             // TODO: Dont know if we need to validate player name
+            return GameMessage.eValidationMessageType.Valid;
         }
 
         private static GameMessage.eValidationMessageType checkIfGameModeValid(StringBuilder i_StringToValidate)
@@ -63,58 +60,68 @@
         private static GameMessage.eValidationMessageType checkIfBoardDimensionsValid(StringBuilder i_StringToValidate)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidDimensions;
-            bool isValid = false;
+            bool isFormatValid = false;
 
-            isValid = checkIsDimensionInFormat(i_StringToValidate);
+            isFormatValid = checkIsDimensionInFormat(i_StringToValidate);
+
+            if (isFormatValid)
+            {
+                isBoardSizeValid(i_StringToValidate);
+            }
+
+
+
 
             return messageType;
         }
 
         private static bool checkIsDimensionInFormat(StringBuilder i_StringBoardDimension)
         {
-            string dimension = string.Empty;
-            int separtorIndex = 0, parseResult = 0;
-            bool isValidFormat = false;
+            int parseResult = 0;
+            bool isValidFormat = true;
 
-            while (i_StringBoardDimension[separtorIndex] != ',' && separtorIndex < i_StringBoardDimension.Length)
+            if (i_StringBoardDimension.Length > 3)
             {
-                separtorIndex++;
+                isValidFormat = false;
             }
-
-            dimension = i_StringBoardDimension.ToString().Substring(0, separtorIndex);
-
-            if ((int.TryParse(dimension, out parseResult)))
+            else
             {
-                dimension = i_StringBoardDimension.ToString().Substring(separtorIndex + 1, i_StringBoardDimension.Length - separtorIndex);
-                if ((int.TryParse(dimension, out parseResult)))
+                for (int i = 0; i < i_StringBoardDimension.Length; i += 2)
                 {
-                    isValidFormat = true;
+                    if (!(int.TryParse(i_StringBoardDimension[i].ToString(), out parseResult)))
+                    {
+                        isValidFormat = false;
+                    }
+                }
+
+                if (i_StringBoardDimension[1] != ',')
+                {
+                    isValidFormat = false;
+
                 }
             }
 
             return isValidFormat;
         }
 
-        private static bool isBoardSizeValid()
+        private static bool isBoardSizeValid(StringBuilder i_ValidFormatBoardInput)
         {
-            bool isFirstDimensionIsFive = false;
-            bool isBoardSizeValid = false;
+            bool isBoardSizeValid = true;
+            int[] dimensions = new int[2];
 
-            for (int i = 0; i < i_BoardSize.Length; i++)
+            for (int i = 0, j=0; i < i_ValidFormatBoardInput.Length; i += 2)
             {
-                if (i_BoardSize[i] >= 4 && i_BoardSize[i] <= 6)
-                {
-                    if (i_BoardSize[i] != 5)
-                    {
-                        isBoardSizeValid = true;
-                    }
-                    else if (!isFirstDimensionIsFive)
-                    {
-                        isFirstDimensionIsFive = true;
-                    }
-                }
+                dimensions[j++] = int.Parse(i_ValidFormatBoardInput[i].ToString());
             }
 
+            if (dimensions[0] >= 4 && dimensions[0] <= 6 && dimensions[1] >= 4 && dimensions[1] <= 6)
+            {
+                if (dimensions[0] == 5 && dimensions[1] == 5)
+                {
+                    isBoardSizeValid = false;
+                }
+            }
+            
             return isBoardSizeValid;
         }
 
@@ -184,7 +191,7 @@
             ValidateBoardDimensions,
             ValidateTile,
             ValidateTileOnBoard,
-            ValidatePlayAgain,
+            ValidateIsPlayAgain,
         }
     }
 }
