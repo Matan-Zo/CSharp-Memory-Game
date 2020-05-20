@@ -65,6 +65,8 @@
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidDimensions;
             bool isValid = false;
 
+            isValid = checkIsDimensionInFormat(i_StringToValidate);
+
             return messageType;
         }
 
@@ -78,16 +80,13 @@
             {
                 separtorIndex++;
             }
+
             dimension = i_StringBoardDimension.ToString().Substring(0, separtorIndex);
 
-            if (!(int.TryParse(dimension, out parseResult)))
-            {
-                isValidFormat = true;
-            }
-            else
+            if ((int.TryParse(dimension, out parseResult)))
             {
                 dimension = i_StringBoardDimension.ToString().Substring(separtorIndex + 1, i_StringBoardDimension.Length - separtorIndex);
-                if (!(int.TryParse(dimension, out parseResult)))
+                if ((int.TryParse(dimension, out parseResult)))
                 {
                     isValidFormat = true;
                 }
