@@ -45,7 +45,9 @@ Enter 2 for you vs AI");
 
         private static void enterBoardDimensionsMsg()
         {
-            StringBuilder stringToPrint = new StringBuilder("Please enter the desired board dimensions:");
+            StringBuilder stringToPrint = new StringBuilder(@"Please enter the desired board dimensions in this format:
+dimension,dimension
+Each dimension needs to be between 4 to 6, excluding 5x5:");
             Console.WriteLine(stringToPrint);
         }
 
@@ -85,7 +87,10 @@ Enter 2 for you vs AI");
                     invalidInputGameModeMsg();
                     break;
                 case eValidationMessageType.InvalidDimensions:
-                    invalidInputDimensionsMsg();
+                    invalidInputDimensionsMsg(1);
+                    break;
+                case eValidationMessageType.InvalidDimensionsBadFormat:
+                    invalidInputDimensionsMsg(2);
                     break;
                 case eValidationMessageType.InvalidTile:
                     invalidInputTileMsg(1);
@@ -111,10 +116,17 @@ Enter 2 for you vs AI");
             Console.WriteLine(stringToPrint);
         }
 
-        private static void invalidInputDimensionsMsg()
+        private static void invalidInputDimensionsMsg(int i_MessageType)
         {
-            StringBuilder stringToPrint = new StringBuilder(@"Invalid dimension.
-Please enter dimensions in range of 4x4 to 6x6, excluding 5x5.");
+            StringBuilder stringToPrint = new StringBuilder("Invalid dimensions");
+            if (i_MessageType == 1)
+            {
+                stringToPrint.Append(".");
+            }
+            else if (i_MessageType == 2)
+            {
+                stringToPrint.Append(", bad format.");
+            }
             Console.WriteLine(stringToPrint);
         }
 
@@ -140,6 +152,7 @@ Please enter dimensions in range of 4x4 to 6x6, excluding 5x5.");
             Valid,
             InvalidGameMode,
             InvalidDimensions,
+            InvalidDimensionsBadFormat,
             InvalidTile,
             InvalidTileOutOfBounds,
             TileAlreadyShown,
