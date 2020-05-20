@@ -44,6 +44,14 @@
             }
         }
 
+        public Coordinate Size
+        {
+            get
+            {
+                return new Coordinate(m_Matrix.GetLength(0), m_Matrix.GetLength(1));
+            }
+        }
+
         public static char getDefualtTileData()
         {
             return sr_DefaultData;
@@ -73,7 +81,7 @@
                 }
             }
 
-            for (char letterToFill = 'Z'; availableCoordinates.Count > 0; letterToFill--)
+            for (char letterToFill = 'A'; availableCoordinates.Count > 0; letterToFill++)
             {
                 for (int i = 0; i < 2; i++)
                 {
