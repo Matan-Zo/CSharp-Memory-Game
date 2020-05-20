@@ -85,7 +85,7 @@
         {
             StringBuilder validDimensions = AskAndGetValidInputBoardDimensions();
             m_CurrentDataManager.GenerateBoards(validDimensions);
-            m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+            m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private StringBuilder AskAndGetValidInputBoardDimensions()
@@ -133,7 +133,7 @@
                     m_CurrentDataManager.AIPlay(currentTurnTileNumber);
                 }
 
-                m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+                m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
             }
         }
 
@@ -170,7 +170,7 @@
             int timeToSleep = 2;
             sleep(timeToSleep);
             m_CurrentDataManager.HideCurrentTurnTiles();
-            m_CurrentViewManager.PrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+            m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private bool GameOver()
@@ -178,7 +178,7 @@
             bool isPlayingAgain = false;
             List<Player> gamePlayers;
             gamePlayers = m_CurrentDataManager.GamePlayers;
-            m_CurrentViewManager.ShowScoreBoard(gamePlayers);
+            m_CurrentViewManager.ClearViewAndShowScores(gamePlayers);
             isPlayingAgain = askAndGetValidInputCheckIfPlayingAgain();
             return isPlayingAgain;
         }

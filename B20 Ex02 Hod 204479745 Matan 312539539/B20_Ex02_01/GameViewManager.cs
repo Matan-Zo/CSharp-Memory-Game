@@ -2,6 +2,7 @@
 {
     using System;
     using System.Text;
+    using System.Collections.Generic;
     internal class GameViewManager
     {
         public void ShowMessage(GameMessage.eGameMessageType i_MessageType)
@@ -14,7 +15,18 @@
             GameMessage.PrintValidationMessage(i_MessageType);
         }
 
-        public void PrintBoard(char[,] i_VisualBoardMatrixToPrint)
+        public void ClearViewAndPrintBoard(char[,] i_VisualBoardMatrixToPrint)
+        {
+            clearView();
+            printBoard(i_VisualBoardMatrixToPrint);
+        }
+
+        private void clearView()
+        {
+
+        }
+
+        private void printBoard(char[,] i_VisualBoardMatrixToPrint)
         {
             int           rows, cols;
             StringBuilder stringToPrint = new StringBuilder();
@@ -45,6 +57,41 @@
             io_StringToAppend.Append("  ");
             io_StringToAppend.Append('=', (i_RowLength * 6) + 1);
             io_StringToAppend.AppendLine();
+        }
+
+        public StringBuilder GetUserInput()
+        {
+            StringBuilder userInput = new StringBuilder();
+            userInput.Append(Console.ReadLine());
+            return userInput;
+        }
+
+        public void ClearViewAndShowScores(List<Player> i_PlayersList)
+        {
+            clearView();
+            showScores(i_PlayersList);
+        }
+
+        private void showScores(List<Player> i_PlayersList)
+        {
+            StringBuilder stringToPrint = new StringBuilder();
+            stringToPrint.AppendFormat("{0}:{1}. {2}:{3}.", i_PlayersList[0].Name, i_PlayersList[0].Score,
+                                                            i_PlayersList[1].Name, i_PlayersList[1].Score);
+            stringToPrint.AppendLine();
+            if (i_PlayersList[0].Score > i_PlayersList[1].Score)
+            {
+                stringToPrint.AppendFormat("The Winner is {0}!", i_PlayersList[0].Name);
+            }
+            else if (i_PlayersList[0].Score < i_PlayersList[1].Score)
+            {
+                stringToPrint.AppendFormat("The Winner is {0}!", i_PlayersList[1].Name);
+            }
+            else
+            {
+                stringToPrint.AppendFormat("It is a draw! Outstanding!!");
+            }
+
+            Console.WriteLine(stringToPrint);
         }
 
         public void HandleQuit() // maybe, not sure yet.
