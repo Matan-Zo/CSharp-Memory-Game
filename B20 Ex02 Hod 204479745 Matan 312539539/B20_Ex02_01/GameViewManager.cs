@@ -3,6 +3,7 @@
     using System;
     using System.Text;
     using System.Collections.Generic;
+    using Ex02.ConsoleUtils;
     internal class GameViewManager
     {
         public void ShowMessage(GameMessage.eGameMessageType i_MessageType)
@@ -23,7 +24,7 @@
 
         private void clearView()
         {
-
+            Screen.Clear();
         }
 
         private void printBoard(char[,] i_VisualBoardMatrixToPrint)
