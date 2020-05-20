@@ -42,6 +42,7 @@
         private static GameMessage.eValidationMessageType checkIfPlayerNameValid(StringBuilder i_StringToValidate)
         {
             // TODO: Dont know if we need to validate player name
+            return GameMessage.eValidationMessageType.Valid;
         }
 
         private static GameMessage.eValidationMessageType checkIfGameModeValid(StringBuilder i_StringToValidate)
@@ -72,46 +73,47 @@
 
         private static bool checkIsDimensionInFormat(StringBuilder i_StringBoardDimension)
         {
-            string dimension = string.Empty;
-            int separtorIndex = 0, parseResult = 0;
-            bool isValidFormat = false;
+            bool isValidFormat = true;
 
-            while (i_StringBoardDimension[separtorIndex] != ',' && separtorIndex < i_StringBoardDimension.Length)
+            if (i_StringBoardDimension.Length > 3)
             {
-                separtorIndex++;
+                isValidFormat = false;
             }
-
-            dimension = i_StringBoardDimension.ToString().Substring(0, separtorIndex);
-
-            if ((int.TryParse(dimension, out parseResult)))
+            else
             {
-                dimension = i_StringBoardDimension.ToString().Substring(separtorIndex + 1, i_StringBoardDimension.Length - separtorIndex);
-                if ((int.TryParse(dimension, out parseResult)))
+                for (int i = 0; i < i_StringBoardDimension.Length; i += 2)
                 {
-                    isValidFormat = true;
+                    if (!(char.IsDigit(i_StringBoardDimension[i])))
+                    {
+                        isValidFormat = false;
+                        break;
+                    }
+                }
+
+                if (i_StringBoardDimension[1] != ',')
+                {
+                    isValidFormat = false;
                 }
             }
 
             return isValidFormat;
         }
 
-        private static bool isBoardSizeValid()
+        private static bool isBoardSizeValid(StringBuilder i_ValidDimensionFormat)
         {
-            bool isFirstDimensionIsFive = false;
-            bool isBoardSizeValid = false;
+            bool isBoardSizeValid = true;
+            int[] dimensions = new int[2];
 
-            for (int i = 0; i < i_BoardSize.Length; i++)
+            for (int i = 0, j = 0; i < i_ValidDimensionFormat.Length; i+=2)
             {
-                if (i_BoardSize[i] >= 4 && i_BoardSize[i] <= 6)
+                dimensions[j++] = int.Parse(i_ValidDimensionFormat[i].ToString());
+            }
+
+            if (dimensions[0] >= 4 && dimensions[0] <= 6 && dimensions[1] >=4 && dimensions[1] <=6)
+            {
+                if (dimensions[0] != 5 || dimensions[1] != 5 )
                 {
-                    if (i_BoardSize[i] != 5)
-                    {
-                        isBoardSizeValid = true;
-                    }
-                    else if (!isFirstDimensionIsFive)
-                    {
-                        isFirstDimensionIsFive = true;
-                    }
+                    isBoardSizeValid = true;
                 }
             }
 
