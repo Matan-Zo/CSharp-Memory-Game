@@ -11,9 +11,9 @@
         public Board(Coordinate i_Dimensions)
         {
             m_Matrix = new char[i_Dimensions.X, i_Dimensions.Y];
-            for (int i=0; i<m_Matrix.GetLength(0); i++)
+            for (int i = 0; i < m_Matrix.GetLength(0); i++)
             {
-                for (int j=0; j<m_Matrix.GetLength(1);j++)
+                for (int j = 0; j < m_Matrix.GetLength(1); j++)
                 {
                     m_Matrix[i, j] = sr_DefaultData;
                 }
@@ -52,7 +52,7 @@
             }
         }
 
-        public static char getDefualtTileData()
+        public static char getDefaultTileData()
         {
             return sr_DefaultData;
         }
@@ -77,7 +77,7 @@
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    availableCoordinates[i + j] = new Coordinate(i, j);
+                    availableCoordinates[i * Width + j] = new Coordinate(i, j);
                 }
             }
 
@@ -94,7 +94,12 @@
 
         public void ClearTileAtLocation(Coordinate i_Location)
         {
-            SetDataAtLocation(sr_DefaultData, i_Location);
+            ClearTileAtLocation(i_Location.X, i_Location.Y);
+        }
+
+        public void ClearTileAtLocation(int i_CoordinateX, int i_CoordinateY)
+        {
+            m_Matrix[i_CoordinateX, i_CoordinateY] = sr_DefaultData;
         }
 
         public void ClearBoard()

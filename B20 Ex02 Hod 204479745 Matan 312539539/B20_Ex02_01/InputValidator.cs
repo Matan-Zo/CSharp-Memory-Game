@@ -41,8 +41,13 @@
 
         private static GameMessage.eValidationMessageType checkIfPlayerNameValid(StringBuilder i_StringToValidate)
         {
-            // TODO: Dont know if we need to validate player name
-            return GameMessage.eValidationMessageType.Valid;
+            GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
+            if (!(string.IsNullOrEmpty(i_StringToValidate.ToString())))
+            {
+                messageType = GameMessage.eValidationMessageType.Valid;
+            }
+
+            return messageType;
         }
 
         private static GameMessage.eValidationMessageType checkIfGameModeValid(StringBuilder i_StringToValidate)
@@ -64,9 +69,14 @@
         private static GameMessage.eValidationMessageType checkIfBoardDimensionsValid(StringBuilder i_StringToValidate)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidDimensions;
-            bool isValid = false;
 
-            isValid = checkIsDimensionInFormat(i_StringToValidate);
+            if (checkIsDimensionInFormat(i_StringToValidate))
+            {
+                if (isBoardSizeValid(i_StringToValidate))
+                {
+                    messageType = GameMessage.eValidationMessageType.Valid;
+                }
+            }
 
             return messageType;
         }
@@ -124,7 +134,7 @@
         { 
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidTile;
 
-            if (i_StringToValidate.Length < 2)
+            if (i_StringToValidate.Length == 2)
             {
                 if (char.IsLetter(i_StringToValidate[0]))
                 {
@@ -141,7 +151,7 @@
         private static GameMessage.eValidationMessageType checkIfTileLocationCorrect(StringBuilder i_TileStringLocation, Coordinate i_BoardSize)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidTileOutOfBounds;
-            Coordinate tileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileStringLocation);
+            Coordinate tileLocation = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileStringLocation);
 
             if (tileLocation.X < i_BoardSize.X && tileLocation.Y < i_BoardSize.Y)
             {

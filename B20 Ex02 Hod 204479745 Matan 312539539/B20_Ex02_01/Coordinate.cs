@@ -57,7 +57,20 @@
             }
         }
 
-        public static Coordinate ConvertBoardCoordinateInputToCoordinate(StringBuilder i_StringBoardLocation)
+        public bool IsEmpty()
+        {
+            bool isEmpty = ((X == -1) && (Y == -1));
+
+            return isEmpty;
+        }
+
+        public void ClearCoordinateData()
+        {
+            X = -1;
+            Y = -1;
+        }
+
+        public static Coordinate ConvertTileCoordinateInputToCoordinate(StringBuilder i_StringBoardLocation)
         {
             int xCoordinate, yCoordinate;
 
@@ -73,6 +86,14 @@
             yCoordinate = (int)char.GetNumericValue(i_StringBoardLocation[1]);
 
             return new Coordinate(xCoordinate, yCoordinate);
+        }
+
+        public static Coordinate ConvertValidStringCoordinateToCoordinate(StringBuilder i_StringCoordinate)
+        {
+            int CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
+            int CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
+
+            return new Coordinate(CoordinateX, CoordinateY);
         }
     }
 }

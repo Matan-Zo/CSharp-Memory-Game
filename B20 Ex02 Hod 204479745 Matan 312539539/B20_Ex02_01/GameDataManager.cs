@@ -102,14 +102,14 @@
 
         public void GenerateBoards(StringBuilder i_StringBoardDimensions)
         {
-            Coordinate boardDimensions = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_StringBoardDimensions);
+            Coordinate boardDimensions = Coordinate.ConvertValidStringCoordinateToCoordinate(i_StringBoardDimensions);
             m_VisualBoard = new Board(boardDimensions);
             m_DataBoard = new Board(boardDimensions);
             m_DataBoard.FillBoardRandomly();
 
             if (GameMode == 2)
             {
-                m_AiPlayer.GenerateAiBoard(i_StringBoardDimensions);
+                m_AiPlayer.GenerateAiBoard(boardDimensions);
             }
         }
 
@@ -138,6 +138,10 @@
             {
                 isCorrect = true;
                 m_NumberOfExposedTiles = +2;
+                if (GameMode == 2)
+                {
+                    m_AiPlayer.RemoveShownTilesFromList(m_LastTilePicked);
+                }
             }
 
             return isCorrect;
@@ -155,12 +159,13 @@
 
         public void SetChosenTileAsShown(StringBuilder i_TileLocation, int i_CurrentTurnTileNumber)
         {
-            Coordinate pickedTileLocation = Coordinate.ConvertBoardCoordinateInputToCoordinate(i_TileLocation);
+            Coordinate pickedTileLocation = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileLocation);
             showTileOnVisualBoard(pickedTileLocation, i_CurrentTurnTileNumber);
 
             if (GameMode == 2)
             {
-                m_AiPlayer.CopyTileDataToBoard(m_VisualBoard.GetDataAtLocation(pickedTileLocation), pickedTileLocation);
+                m_AiPlayer.CopyTileDataToAIBoard(m_VisualBoard.GetDataAtLocation(pickedTileLocation),
+                                                 pickedTileLocation);
             }
         }
 
@@ -203,12 +208,10 @@
             }
         }
 
-        /*
         public void AIPlay(int i_CurrentTurnTileNumber)
         {
-            Coordinate aiPickedTile = AIPlayer.PickTile(m_VisualBoard); // TEMP NAME
+            Coordinate aiPickedTile = m_AiPlayer.PickTile(); // TEMP NAME
             showTileOnVisualBoard(aiPickedTile, i_CurrentTurnTileNumber);
         }
-        */
     }
 }
