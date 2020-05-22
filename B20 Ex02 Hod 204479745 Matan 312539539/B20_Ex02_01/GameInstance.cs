@@ -133,7 +133,6 @@
                 }
                 else
                 {
-                    sleep();
                     m_CurrentDataManager.AIPlay(currentTurnTileNumber);
                 }
 
