@@ -43,6 +43,7 @@
 
                 appendRowBreak(cols, ref stringToPrint);
             }
+
             Console.WriteLine(stringToPrint);
         }
 
@@ -58,6 +59,7 @@
         {
             StringBuilder userInput = new StringBuilder();
             userInput.Append(Console.ReadLine());
+
             return userInput;
         }
 
@@ -101,11 +103,6 @@
             }
 
             Console.WriteLine(stringToPrint);
-        }
-
-        public void HandleQuit() // maybe, not sure yet.
-        {
-
         }
     }
 }

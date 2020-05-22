@@ -122,11 +122,11 @@
                                                                            char[,] i_VisualBoardMatrix)
         { 
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidTile;
-            if(checkIfTileFormatValid(i_StringToValidate))
+            if (checkIfTileFormatValid(i_StringToValidate))
             {
-                if(checkIfTileNumbersAreInRangeOfBoard(i_StringToValidate,i_VisualBoardMatrix))
+                if (checkIfTileNumbersAreInRangeOfBoard(i_StringToValidate,i_VisualBoardMatrix))
                 {
-                    if(checkIfTileIsHidden(i_StringToValidate,i_VisualBoardMatrix))
+                    if (checkIfTileIsHidden(i_StringToValidate,i_VisualBoardMatrix))
                     {
                         messageType = GameMessage.eValidationMessageType.Valid;
                     }
@@ -139,6 +139,10 @@
                 {
                     messageType = GameMessage.eValidationMessageType.InvalidTileOutOfBounds;
                 }
+            }
+            else if (i_StringToValidate.ToString().CompareTo(sr_QuitString.ToString()) == 0)
+            {
+                messageType = GameMessage.eValidationMessageType.Valid;
             }
 
             return messageType;

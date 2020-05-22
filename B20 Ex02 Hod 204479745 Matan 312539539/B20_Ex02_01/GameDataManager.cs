@@ -145,7 +145,7 @@
             if (TileData1 == TileData2)
             {
                 isCorrect = true;
-                m_NumberOfExposedTiles = +2;
+                m_NumberOfExposedTiles += 2;
                 if (GameMode == 2)
                 {
                     m_AiPlayer.RemoveShownTilesFromList(m_LastTilePicked);
