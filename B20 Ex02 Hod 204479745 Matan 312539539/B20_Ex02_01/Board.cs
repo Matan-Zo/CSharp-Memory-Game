@@ -32,7 +32,7 @@
         {
             get
             {
-                return m_Matrix.GetLength(0);
+                return m_Matrix.GetLength(1);
             }
         }
 
@@ -40,7 +40,7 @@
         {
             get
             {
-                return m_Matrix.GetLength(1);
+                return m_Matrix.GetLength(0);
             }
         }
 
@@ -69,25 +69,26 @@
         
         public void FillBoardRandomly()
         {
-            List<Coordinate> availableCoordinates = new List<Coordinate>(Height * Width);
+            List<Coordinate> CoordinatesToShuffle = new List<Coordinate>(Height * Width);
             Random randomLocation = new Random();
-            int CoordinateIndex = 0;
+            int randomCoordinateIndex = 0;
 
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    availableCoordinates[i * Width + j] = new Coordinate(i, j);
+                    CoordinatesToShuffle.Add(new Coordinate(i, j));
                 }
             }
 
-            for (char letterToFill = 'A'; availableCoordinates.Count > 0; letterToFill++)
+            for (char letterToFill = 'A'; CoordinatesToShuffle.Count > 0; letterToFill++)
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++) // loop will run 2 times for pairs of letters.
                 {
-                    CoordinateIndex = randomLocation.Next(availableCoordinates.Count);
-                    m_Matrix[availableCoordinates[CoordinateIndex].X, availableCoordinates[CoordinateIndex].Y] = letterToFill;
-                    availableCoordinates.RemoveAt(CoordinateIndex);
+                    randomCoordinateIndex = randomLocation.Next(CoordinatesToShuffle.Count); 
+                    m_Matrix[CoordinatesToShuffle[randomCoordinateIndex].X,                     // put the randomly chosen coordinate inside the matrix,
+                             CoordinatesToShuffle[randomCoordinateIndex].Y] = letterToFill;     // and gives it the current letter value.
+                    CoordinatesToShuffle.RemoveAt(randomCoordinateIndex);                       // after using a coordinate from the list, remove it to make sure not to choose it again.
                 }
             }
         }

@@ -18,7 +18,6 @@
             askAndGetGameModeFromInput();
             makePlayerTwo(); // askAndGetisOtherPlayerHumanFromInput()
             activateAndRunInstance();
-
         }
 
         private StringBuilder getValidInput(InputValidator.eValidationType i_ValidateType)
@@ -31,6 +30,7 @@
                 validationMessage = m_CurrentDataManager.CheckIfValid(i_ValidateType, userInput);
                 m_CurrentViewManager.ShowValidationMessage(validationMessage);
             }
+
             return userInput;
         }
 
@@ -72,8 +72,6 @@
                 startGame();
                 isInstanceActive = GameOver();
             }
-
-
         }
 
         private void setNewGameData()
@@ -93,6 +91,7 @@
             StringBuilder validBoardDimensions = null;
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
             validBoardDimensions = getValidInput(InputValidator.eValidationType.ValidateBoardDimensions);
+
             return validBoardDimensions;
         }
 
@@ -113,7 +112,6 @@
                     m_CurrentDataManager.ChangeTurn();
                 }
             }
-
         }
 
         private void playTurn()
@@ -139,18 +137,15 @@
 
         private void AskAndGetValidInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
         {
-            GameMessage.eGameMessageType messageType;
-            if (i_CurrentTurnTileNumber == 1)
-            {
-                messageType = GameMessage.eGameMessageType.EnterTileOne;
-            }
-            else
+            GameMessage.eGameMessageType messageType = GameMessage.eGameMessageType.EnterTileOne;
+            InputValidator.eValidationType validationType = InputValidator.eValidationType.ValidateTile;
+            if (i_CurrentTurnTileNumber == 2)
             {
                 messageType = GameMessage.eGameMessageType.EnterTileTwo;
             }
 
             m_CurrentViewManager.ShowMessage(messageType);
-            o_TileLocationInput = getValidInput(InputValidator.eValidationType.ValidateTile);
+            o_TileLocationInput = getValidInput(validationType);
         }
 
         private void quitIfStringsAreEqual(StringBuilder i_FirstStringToCheck)
@@ -165,7 +160,8 @@
         private void sleepThenHideTiles()
         {
             int secondsToSleep = 2;
-            System.Threading.Thread.Sleep(secondsToSleep*100);
+            secondsToSleep *= 1000; // make into seconds
+            System.Threading.Thread.Sleep(secondsToSleep);
             m_CurrentDataManager.HideCurrentTurnTiles();
             m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
         }

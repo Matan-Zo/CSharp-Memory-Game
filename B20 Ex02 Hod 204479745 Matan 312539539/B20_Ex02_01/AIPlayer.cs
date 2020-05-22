@@ -29,7 +29,7 @@
             {
                 for (int j = 0; j < i_BoardDimensions.Y; j++)
                 {
-                    m_HiddenTilesList[i * i_BoardDimensions.Y + j] = new Coordinate(i, j);
+                    m_HiddenTilesList.Add(new Coordinate(i, j));
                 }
             }
         }

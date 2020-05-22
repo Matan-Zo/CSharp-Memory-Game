@@ -6,7 +6,9 @@
     {  
         private static readonly StringBuilder sr_QuitString = new StringBuilder("Q");
 
-        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType, StringBuilder i_UserInput)
+        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType,
+                                                                       StringBuilder i_UserInput,
+                                                                       char[,] i_VisualBoardMatrix)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
             switch (i_CurrentValidationType)
@@ -21,21 +23,12 @@
                     messageType = checkIfBoardDimensionsValid(i_UserInput);
                     break;
                 case eValidationType.ValidateTile:
-                    messageType = checkIfTileValid(i_UserInput);
+                    messageType = checkIfTileValid(i_UserInput, i_VisualBoardMatrix);
                     break;
                 case eValidationType.ValidateIsPlayingAgain:
                     messageType = checkIfPlayAgainValid(i_UserInput);
                     break;
             }
-            return messageType;
-        }
-
-        public static GameMessage.eValidationMessageType ValidateInput(eValidationType i_CurrentValidationType,
-                                                                       StringBuilder i_UserInput,
-                                                                       Coordinate i_BoardSize)
-        {
-            GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
-            messageType = checkIfTileLocationCorrect(i_UserInput, i_BoardSize);
             return messageType;
         }
 
@@ -70,7 +63,7 @@
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidDimensions;
 
-            if (checkIsDimensionInFormat(i_StringToValidate))
+            if (checkIfBoardDimensionInFormat(i_StringToValidate))
             {
                 if (isBoardSizeValid(i_StringToValidate))
                 {
@@ -81,15 +74,10 @@
             return messageType;
         }
 
-        private static bool checkIsDimensionInFormat(StringBuilder i_StringBoardDimension)
+        private static bool checkIfBoardDimensionInFormat(StringBuilder i_StringBoardDimension)
         {
             bool isValidFormat = true;
-
-            if (i_StringBoardDimension.Length > 3)
-            {
-                isValidFormat = false;
-            }
-            else
+            if (i_StringBoardDimension.Length == 3)
             {
                 for (int i = 0; i < i_StringBoardDimension.Length; i += 2)
                 {
@@ -99,11 +87,14 @@
                         break;
                     }
                 }
-
                 if (i_StringBoardDimension[1] != ',')
                 {
                     isValidFormat = false;
                 }
+            }
+            else
+            {
+                isValidFormat = false;
             }
 
             return isValidFormat;
@@ -111,17 +102,14 @@
 
         private static bool isBoardSizeValid(StringBuilder i_ValidDimensionFormat)
         {
-            bool isBoardSizeValid = true;
-            int[] dimensions = new int[2];
-
-            for (int i = 0, j = 0; i < i_ValidDimensionFormat.Length; i+=2)
+            bool       isBoardSizeValid = false;
+            Coordinate maxDimension, minDimension, dimension;
+            dimension = Coordinate.ConvertValidCoordinateFormatToCoordinate(i_ValidDimensionFormat);
+            maxDimension = new Coordinate(6, 6);
+            minDimension = new Coordinate(4, 4);
+            if (Coordinate.CheckIfInRange(dimension,maxDimension,minDimension))
             {
-                dimensions[j++] = int.Parse(i_ValidDimensionFormat[i].ToString());
-            }
-
-            if (dimensions[0] >= 4 && dimensions[0] <= 6 && dimensions[1] >=4 && dimensions[1] <=6)
-            {
-                if (dimensions[0] != 5 || dimensions[1] != 5 )
+                if (dimension.X != 5 || dimension.Y != 5 )
                 {
                     isBoardSizeValid = true;
                 }
@@ -130,22 +118,66 @@
             return isBoardSizeValid;
         }
 
-        private static GameMessage.eValidationMessageType checkIfTileValid(StringBuilder i_StringToValidate)
+        private static GameMessage.eValidationMessageType checkIfTileValid(StringBuilder i_StringToValidate,
+                                                                           char[,] i_VisualBoardMatrix)
         { 
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.InvalidTile;
-
-            if (i_StringToValidate.Length == 2)
+            if(checkIfTileFormatValid(i_StringToValidate))
             {
-                if (char.IsLetter(i_StringToValidate[0]))
+                if(checkIfTileNumbersAreInRangeOfBoard(i_StringToValidate,i_VisualBoardMatrix))
                 {
-                    if (char.IsDigit(i_StringToValidate[1]))
+                    if(checkIfTileIsHidden(i_StringToValidate,i_VisualBoardMatrix))
                     {
                         messageType = GameMessage.eValidationMessageType.Valid;
                     }
+                    else
+                    {
+                        messageType = GameMessage.eValidationMessageType.TileAlreadyShown;
+                    }
+                }
+                else
+                {
+                    messageType = GameMessage.eValidationMessageType.InvalidTileOutOfBounds;
                 }
             }
 
             return messageType;
+        }
+
+        private static bool checkIfTileNumbersAreInRangeOfBoard(StringBuilder i_TileToCheck,
+                                                                char[,] i_VisualBoardMatrix)
+        {
+            bool       isTileNumbersInRange = false;
+            Coordinate tileCoordinate, boardMaxRange,boardMinRange = new Coordinate(0,0);
+            boardMaxRange = new Coordinate(i_VisualBoardMatrix.GetLength(0) - 1,
+                                           i_VisualBoardMatrix.GetLength(1) - 1);
+            tileCoordinate = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileToCheck);
+            isTileNumbersInRange = Coordinate.CheckIfInRange(tileCoordinate, boardMaxRange,boardMinRange);
+            return isTileNumbersInRange;
+        }
+
+        private static bool checkIfTileIsHidden(StringBuilder i_TileToCheck, char[,] i_VisualBoardMatrix)
+        {
+            Coordinate tileCoordinate = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileToCheck);
+            bool isTileHidden = (i_VisualBoardMatrix[tileCoordinate.X, tileCoordinate.Y] == 
+                                  Board.getDefaultTileData());
+            return isTileHidden;
+        }
+        private static bool checkIfTileFormatValid(StringBuilder i_TileToCheck)
+        {
+            bool isFormatValid = false;
+            if (i_TileToCheck.Length == 2)
+            {
+                if (char.IsLetter(i_TileToCheck[0]))
+                {
+                    if (char.IsDigit(i_TileToCheck[1]))
+                    {
+                        isFormatValid = true;
+                    }
+                }
+            }
+
+            return isFormatValid;
         }
 
         private static GameMessage.eValidationMessageType checkIfTileLocationCorrect(StringBuilder i_TileStringLocation, Coordinate i_BoardSize)

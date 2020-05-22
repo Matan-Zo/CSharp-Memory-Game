@@ -27,7 +27,7 @@
             m_GamePlayers = new List<Player>(2);
             for (int i = 0; i < m_GamePlayers.Capacity; i++)
             {
-                m_GamePlayers[i] = new Player();
+                m_GamePlayers.Add(new Player());
             }
 
             m_CurrentPlayerTurn = m_GamePlayers[0];
@@ -102,7 +102,7 @@
 
         public void GenerateBoards(StringBuilder i_StringBoardDimensions)
         {
-            Coordinate boardDimensions = Coordinate.ConvertValidStringCoordinateToCoordinate(i_StringBoardDimensions);
+            Coordinate boardDimensions = Coordinate.ConvertValidCoordinateFormatToCoordinate(i_StringBoardDimensions);
             m_VisualBoard = new Board(boardDimensions);
             m_DataBoard = new Board(boardDimensions);
             m_DataBoard.FillBoardRandomly();
@@ -117,14 +117,14 @@
                                                                StringBuilder i_UserInput)
         {
             GameMessage.eValidationMessageType validationType;
-            if (i_CurrentValidationType == InputValidator.eValidationType.ValidateTileOnBoard)
+            char[,] visualMatrix = null;
+            if (i_CurrentValidationType == InputValidator.eValidationType.ValidateTile)
             {
-                validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput, m_DataBoard.Size);
+                visualMatrix = m_VisualBoard.Matrix;
             }
-            else
-            {
-                validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput);
-            }
+
+            validationType = InputValidator.ValidateInput(i_CurrentValidationType, i_UserInput, visualMatrix);
+
             return validationType;
         }
 
@@ -173,7 +173,7 @@
         {
             char Data = m_DataBoard.GetDataAtLocation(i_TileCoordinateToShow);
             m_VisualBoard.SetDataAtLocation(Data, i_TileCoordinateToShow);
-            m_LastTilePicked[i_CurrentTurnTileNumber].CopyCoordinateData(i_TileCoordinateToShow);
+            m_LastTilePicked[i_CurrentTurnTileNumber - 1].CopyCoordinateData(i_TileCoordinateToShow);
         }
 
         public void HideCurrentTurnTiles()

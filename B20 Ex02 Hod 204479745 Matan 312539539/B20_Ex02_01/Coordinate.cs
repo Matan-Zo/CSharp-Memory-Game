@@ -76,24 +76,34 @@
 
             if (char.IsUpper(i_StringBoardLocation[0]))
             {
-                xCoordinate = i_StringBoardLocation[0] - 'A';
+                yCoordinate = i_StringBoardLocation[0] - 'A';
             }
             else
             {
-                xCoordinate = i_StringBoardLocation[0] - 'a';
+                yCoordinate = i_StringBoardLocation[0] - 'a';
             }
 
-            yCoordinate = (int)char.GetNumericValue(i_StringBoardLocation[1]);
+            xCoordinate = ((int)char.GetNumericValue(i_StringBoardLocation[1]) - 1);
 
             return new Coordinate(xCoordinate, yCoordinate);
         }
 
-        public static Coordinate ConvertValidStringCoordinateToCoordinate(StringBuilder i_StringCoordinate)
+        public static Coordinate ConvertValidCoordinateFormatToCoordinate(StringBuilder i_StringCoordinate)
         {
             int CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
             int CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
 
             return new Coordinate(CoordinateX, CoordinateY);
+        }
+
+        public static bool CheckIfInRange (Coordinate i_CoordToCheck,Coordinate i_MaxCoordRange,
+                                           Coordinate i_MinCoordRange)
+        {
+            bool isInRange = false;
+            isInRange = ((i_CoordToCheck.X <= i_MaxCoordRange.X && i_CoordToCheck.Y <= i_MaxCoordRange.Y) &&
+                        (i_CoordToCheck.X >= i_MinCoordRange.X && i_CoordToCheck.Y >= i_MinCoordRange.Y));
+
+            return isInRange;
         }
     }
 }

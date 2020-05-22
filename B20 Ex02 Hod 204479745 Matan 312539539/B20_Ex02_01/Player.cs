@@ -44,12 +44,12 @@
         {
             get
             {
-                return IsHuman;
+                return m_IsHuman;
             }
 
             set
             {
-                IsHuman = value;
+                m_IsHuman = value;
             }
         }
     }
