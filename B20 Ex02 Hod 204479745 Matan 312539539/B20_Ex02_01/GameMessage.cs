@@ -23,6 +23,9 @@
                 case eGameMessageType.EnterTileTwo:
                     enterTileMsg(2);
                     break;
+                case eGameMessageType.PlayerCorrect:
+                    playerCorrectMsg();
+                    break;
                 case eGameMessageType.AskAnotherGame:
                     askAnotherGameMsg();
                     break;
@@ -63,6 +66,11 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
             Console.WriteLine(stringToPrint);
         }
 
+        private static void playerCorrectMsg()
+        {
+            StringBuilder stringToPrint = new StringBuilder("Correct!");
+            Console.WriteLine(stringToPrint);
+        }
 
         public enum eGameMessageType
         {
@@ -72,6 +80,7 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
             EnterBoardDimensions,
             EnterTileOne,
             EnterTileTwo,
+            PlayerCorrect,
             ShowScoreWithNames,
             AskAnotherGame,
         }
