@@ -71,6 +71,11 @@
                     break;
                 }
             }
+            
+            if (pickedCoordinate.IsEmpty())
+            {
+                pickedCoordinate = chooseRandomUnseenTile();
+            }
 
             return pickedCoordinate;
         }
