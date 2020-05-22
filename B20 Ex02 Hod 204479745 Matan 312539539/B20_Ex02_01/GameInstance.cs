@@ -83,7 +83,8 @@
         {
             StringBuilder validDimensions = AskAndGetValidInputBoardDimensions();
             m_CurrentDataManager.GenerateBoards(validDimensions);
-            m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+            m_CurrentViewManager.UpdateTurnScreen(m_CurrentDataManager.CurrentPlayer,
+                                                  m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private StringBuilder AskAndGetValidInputBoardDimensions()
@@ -103,6 +104,7 @@
                 playTurn();
                 if (m_CurrentDataManager.CheckIfCurrentPlayerCorrect())
                 {
+                    m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.PlayerCorrect);
                     m_CurrentDataManager.IncrementCurrentPlayerScore();
                     isGameRunning = !(m_CurrentDataManager.CheckIfGameOver());
                 }
@@ -131,7 +133,8 @@
                     m_CurrentDataManager.AIPlay(currentTurnTileNumber);
                 }
 
-                m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+                m_CurrentViewManager.UpdateTurnScreen(m_CurrentDataManager.CurrentPlayer,
+                                                      m_CurrentDataManager.VisualBoardMatrix);
             }
         }
 
@@ -163,7 +166,8 @@
             secondsToSleep *= 1000; // make into seconds
             System.Threading.Thread.Sleep(secondsToSleep);
             m_CurrentDataManager.HideCurrentTurnTiles();
-            m_CurrentViewManager.ClearViewAndPrintBoard(m_CurrentDataManager.VisualBoardMatrix);
+            m_CurrentViewManager.UpdateTurnScreen(m_CurrentDataManager.CurrentPlayer,
+                                                  m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private bool GameOver()

@@ -16,12 +16,6 @@
             GameMessage.PrintValidationMessage(i_MessageType);
         }
 
-        public void ClearViewAndPrintBoard(char[,] i_VisualBoardMatrixToPrint)
-        {
-            clearView();
-            printBoard(i_VisualBoardMatrixToPrint);
-        }
-
         private void clearView()
         {
             Screen.Clear();
@@ -65,6 +59,20 @@
             StringBuilder userInput = new StringBuilder();
             userInput.Append(Console.ReadLine());
             return userInput;
+        }
+
+        public void UpdateTurnScreen(Player i_CurrentPlayer, char[,] i_VisualBoardMatrix)
+        {
+            clearView();
+            printBoard(i_VisualBoardMatrix);
+            printCurrentPlayerNameAndScore(i_CurrentPlayer);
+        }
+
+        private void printCurrentPlayerNameAndScore(Player i_CurrentPlayer)
+        {
+            StringBuilder stringToPrint = new StringBuilder();
+            stringToPrint.AppendFormat("Current Turn --> {0} : {1}", i_CurrentPlayer.Name, i_CurrentPlayer.Score);
+            Console.WriteLine(stringToPrint);
         }
 
         public void ClearViewAndShowScores(List<Player> i_PlayersList)
