@@ -61,7 +61,7 @@
             return userInput;
         }
 
-        public void UpdateTurnScreen(Player i_CurrentPlayer, char[,] i_VisualBoardMatrix)
+        public void UpdateAndShowTurnScreen(Player i_CurrentPlayer, char[,] i_VisualBoardMatrix)
         {
             clearView();
             printBoard(i_VisualBoardMatrix);

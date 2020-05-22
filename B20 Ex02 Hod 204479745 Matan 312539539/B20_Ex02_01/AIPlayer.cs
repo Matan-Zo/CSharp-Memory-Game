@@ -106,7 +106,7 @@
             int maxListSize = m_HiddenTilesList.Count, randomNumber;
             Coordinate tileToChoose = new Coordinate();
             Random randomNumberGenerator = new Random();
-            while (tileToChoose.IsEmpty())
+            while (tileToChoose.IsEmpty() && maxListSize > 0)
             {
                 randomNumber = randomNumberGenerator.Next(maxListSize);
                 tileToChoose = m_HiddenTilesList[randomNumber];

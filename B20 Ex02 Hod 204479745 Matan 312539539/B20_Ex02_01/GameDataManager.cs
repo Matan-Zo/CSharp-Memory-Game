@@ -77,6 +77,14 @@
             }
         }
 
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return m_CurrentPlayerTurn;
+            }
+        }
+
         public char[,] VisualBoardMatrix
         {
             get
@@ -198,7 +206,7 @@
 
         public void ChangeTurn()
         {
-            if (m_CurrentPlayerTurn.Equals(m_GamePlayers[0]))
+            if (m_CurrentPlayerTurn == m_GamePlayers[0])
             {
                 m_CurrentPlayerTurn = m_GamePlayers[1];
             }

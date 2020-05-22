@@ -62,7 +62,9 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
 
         private static void askAnotherGameMsg()
         {
-            StringBuilder stringToPrint = new StringBuilder("Do you wish to play another round?");
+            StringBuilder stringToPrint = new StringBuilder(@"Do you wish to play another round?
+Enter 1 for another game.
+Enter 2 to quit.");
             Console.WriteLine(stringToPrint);
         }
 

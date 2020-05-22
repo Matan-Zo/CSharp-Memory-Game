@@ -196,10 +196,10 @@
         private static GameMessage.eValidationMessageType checkIfPlayAgainValid(StringBuilder i_PlayAgainInput)
         {
             GameMessage.eValidationMessageType messageType = GameMessage.eValidationMessageType.Invalid;
-            int playAgainNumber = -1;
+            int                                playAgainNumber = -1;
             if (int.TryParse(i_PlayAgainInput.ToString(), out playAgainNumber))
             {
-                if (playAgainNumber >= 1 && playAgainNumber <= 2)
+                if (playAgainNumber == 1 || playAgainNumber == 2)
                 {
                     messageType = GameMessage.eValidationMessageType.Valid;
                 }
