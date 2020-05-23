@@ -66,8 +66,8 @@
 
         public void ClearCoordinateData()
         {
-            X = -1;
-            Y = -1;
+            m_X = -1;
+            m_Y = -1;
         }
 
         public static Coordinate ConvertTileCoordinateInputToCoordinate(StringBuilder i_StringBoardLocation)
