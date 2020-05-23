@@ -42,17 +42,17 @@
 
             if (i_CurrentPickNumber == 1)
             {
-                pickedCoordinate = scanHiddenTilesList();
+                pickedCoordinate.CopyCoordinateData(scanHiddenTilesList());
             }
             else if (i_CurrentPickNumber == 2)
             {
-                pickedCoordinate = checkFirstPickSavedDataAndChooseSecondTile();
+                pickedCoordinate.CopyCoordinateData(checkFirstPickSavedDataAndChooseSecondTile());
                 clearSavedTiles();
             }
 
             if (pickedCoordinate.IsEmpty())
             {
-                pickedCoordinate = chooseRandomUnseenTile();
+                pickedCoordinate.CopyCoordinateData(chooseRandomUnseenTile());
             }
 
             m_FirstTilePicked.CopyCoordinateData(pickedCoordinate);
@@ -67,7 +67,7 @@
             foreach (Coordinate HiddenTile in m_HiddenTilesList)
             {
                 if (m_AIBoard.Matrix[HiddenTile.X, HiddenTile.Y] != Board.getDefaultTileData()
-                    && isMatchingTileExists(HiddenTile.X, HiddenTile.Y))
+                    && checkIfMatchingTileExists(HiddenTile.X, HiddenTile.Y))
                 {
                     pickedCoordinate.CopyCoordinateData(HiddenTile);
                     break;
@@ -77,7 +77,7 @@
             return pickedCoordinate;
         }
 
-        private bool isMatchingTileExists(int i_TileX, int i_TileY)
+        private bool checkIfMatchingTileExists(int i_TileX, int i_TileY)
         {
             bool isMatching = false;
             char FirstTile = m_AIBoard.Matrix[i_TileX, i_TileY];
@@ -86,7 +86,7 @@
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if (m_AIBoard.Matrix[i, j] == FirstTile && i != i_TileX && j != i_TileY)
+                    if ((m_AIBoard.Matrix[i, j] == FirstTile) && (i != i_TileX || j != i_TileY))
                     {
                         isMatching = true;
                         m_SecondTileToPick.X = i;
@@ -105,11 +105,11 @@
 
             if (m_SecondTileToPick.IsEmpty())
             {
-                pickedCoordinate = searchForMatchingTile();
+                pickedCoordinate.CopyCoordinateData(searchForMatchingTile());
             }
             else
             {
-                pickedCoordinate = m_SecondTileToPick;
+                pickedCoordinate.CopyCoordinateData(m_SecondTileToPick);
             }
 
             return pickedCoordinate;
@@ -118,13 +118,14 @@
         private Coordinate searchForMatchingTile()
         {
             Coordinate pickedCoordinate = new Coordinate();
-            char lastTileData = m_AIBoard.GetDataAtLocation(m_FirstTilePicked);
+            char firstTilePickedData = m_AIBoard.GetDataAtLocation(m_FirstTilePicked);
 
             for (int i = 0; i < m_AIBoard.Height; i++)
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if (lastTileData == m_AIBoard.Matrix[i,j] && m_FirstTilePicked.X != i && m_FirstTilePicked.Y != j)
+                    if ((firstTilePickedData == m_AIBoard.Matrix[i,j]) && 
+                        (m_FirstTilePicked.X != i || m_FirstTilePicked.Y != j))
                     {
                         pickedCoordinate.X = i;
                         pickedCoordinate.Y = j;

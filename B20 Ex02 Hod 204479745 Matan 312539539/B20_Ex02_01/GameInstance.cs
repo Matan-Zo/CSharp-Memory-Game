@@ -107,6 +107,7 @@
                 if (m_CurrentDataManager.CheckIfCurrentPlayerCorrect())
                 {
                     m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.PlayerCorrect);
+                    sleep(1);
                     m_CurrentDataManager.IncrementCurrentPlayerScore();
                     isGameRunning = (!m_CurrentDataManager.CheckIfGameOver());
                 }
@@ -134,6 +135,7 @@
                 else
                 {
                     m_CurrentDataManager.AIPlay(currentTurnTileNumber);
+                    sleep(1);
                 }
 
                 m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
