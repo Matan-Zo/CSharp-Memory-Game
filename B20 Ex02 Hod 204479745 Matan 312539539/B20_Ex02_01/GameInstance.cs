@@ -101,6 +101,8 @@
             bool isGameRunning = true;
             while (isGameRunning)
             {
+                m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
+                                                             m_CurrentDataManager.VisualBoardMatrix);
                 playTurn();
                 if (m_CurrentDataManager.CheckIfCurrentPlayerCorrect())
                 {
@@ -113,8 +115,6 @@
                     m_CurrentDataManager.ChangeTurn();
                     sleep();
                     m_CurrentDataManager.HideCurrentTurnTiles();
-                    m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
-                                      m_CurrentDataManager.VisualBoardMatrix);
                 }
             }
         }
@@ -128,7 +128,7 @@
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
                     AskAndGetValidInputPlayerPlay(currentTurnTileNumber, out tileLocationInput);
-                    quitIfStringsAreEqual(tileLocationInput); // if Q then exit
+                    checkIfStringsAreEqualAndHandleQuit(tileLocationInput); 
                     m_CurrentDataManager.SetChosenTileAsShown(tileLocationInput, currentTurnTileNumber);
                 }
                 else
@@ -137,7 +137,7 @@
                 }
 
                 m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
-                                                      m_CurrentDataManager.VisualBoardMatrix);
+                                                             m_CurrentDataManager.VisualBoardMatrix);
             }
         }
 
@@ -154,11 +154,10 @@
             o_TileLocationInput = getValidInput(validationType);
         }
 
-        private void quitIfStringsAreEqual(StringBuilder i_FirstStringToCheck)
+        private void checkIfStringsAreEqualAndHandleQuit(StringBuilder i_FirstStringToCheck)
         {
             if (InputValidator.isPressedQuit(i_FirstStringToCheck))
             {
-                m_CurrentViewManager.HandleQuit();
                 System.Environment.Exit(0);
             }
         }

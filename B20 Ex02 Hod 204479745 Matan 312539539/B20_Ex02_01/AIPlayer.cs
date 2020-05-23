@@ -7,12 +7,14 @@
     {
         private Board m_AIBoard;
         private List<Coordinate> m_HiddenTilesList;
-        private Coordinate m_SecondTilePick;
+        private Coordinate m_SecondTileToPick;
+        private Coordinate m_FirstTilePicked;
 
 
         public AIPlayer()
         {
-            m_SecondTilePick = new Coordinate();
+            m_SecondTileToPick = new Coordinate();
+            m_FirstTilePicked = new Coordinate();
         }
 
         public void GenerateAiBoard(Coordinate i_BoardDimensions)
@@ -34,26 +36,26 @@
             }
         }
 
-        public Coordinate PickTile()
+        public Coordinate PickTile(int i_CurrentPickNumber)
         {
             Coordinate pickedCoordinate = new Coordinate();
-            if (!(m_SecondTilePick.IsEmpty()))
+
+            if (i_CurrentPickNumber == 1)
             {
-                foreach (Coordinate HiddenTile in m_HiddenTilesList)
-                {
-                    if (HiddenTile.X == m_SecondTilePick.X && HiddenTile.Y == m_SecondTilePick.Y)
-                    {
-                        pickedCoordinate.CopyCoordinateData(m_SecondTilePick);
-                        m_SecondTilePick.ClearCoordinateData();
-                        break;
-                    }
-                }
+                pickedCoordinate = scanHiddenTilesList();
+            }
+            else if (i_CurrentPickNumber == 2)
+            {
+                pickedCoordinate = checkFirstPickSavedDataAndChooseSecondTile();
+                clearSavedTiles();
             }
 
             if (pickedCoordinate.IsEmpty())
             {
-                pickedCoordinate = scanHiddenTilesList();
+                pickedCoordinate = chooseRandomUnseenTile();
             }
+
+            m_FirstTilePicked.CopyCoordinateData(pickedCoordinate);
 
             return pickedCoordinate;
         }
@@ -71,11 +73,6 @@
                     break;
                 }
             }
-            
-            if (pickedCoordinate.IsEmpty())
-            {
-                pickedCoordinate = chooseRandomUnseenTile();
-            }
 
             return pickedCoordinate;
         }
@@ -84,6 +81,7 @@
         {
             bool isMatching = false;
             char FirstTile = m_AIBoard.Matrix[i_TileX, i_TileY];
+
             for (int i = 0; i < m_AIBoard.Height; i++)
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
@@ -91,8 +89,8 @@
                     if (m_AIBoard.Matrix[i, j] == FirstTile && i != i_TileX && j != i_TileY)
                     {
                         isMatching = true;
-                        m_SecondTilePick.X = i;
-                        m_SecondTilePick.Y = j;
+                        m_SecondTileToPick.X = i;
+                        m_SecondTileToPick.Y = j;
                         i = j = m_AIBoard.Height + m_AIBoard.Width;
                     }
                 }
@@ -101,15 +99,53 @@
             return isMatching;
         }
 
+        private Coordinate checkFirstPickSavedDataAndChooseSecondTile()
+        {
+            Coordinate pickedCoordinate = new Coordinate();
+
+            if (m_SecondTileToPick.IsEmpty())
+            {
+                pickedCoordinate = searchForMatchingTile();
+            }
+            else
+            {
+                pickedCoordinate = m_SecondTileToPick;
+            }
+
+            return pickedCoordinate;
+        }
+
+        private Coordinate searchForMatchingTile()
+        {
+            Coordinate pickedCoordinate = new Coordinate();
+            char lastTileData = m_AIBoard.GetDataAtLocation(m_FirstTilePicked);
+
+            for (int i = 0; i < m_AIBoard.Height; i++)
+            {
+                for (int j = 0; j < m_AIBoard.Width; j++)
+                {
+                    if (lastTileData == m_AIBoard.Matrix[i,j] && m_FirstTilePicked.X != i && m_FirstTilePicked.Y != j)
+                    {
+                        pickedCoordinate.X = i;
+                        pickedCoordinate.Y = j;
+                        i = j = m_AIBoard.Height + m_AIBoard.Width;
+                    }
+                }
+            }
+
+            return pickedCoordinate;
+        }
+
         private Coordinate chooseRandomUnseenTile()
         {
             int maxListSize = m_HiddenTilesList.Count, randomNumber;
             Coordinate tileToChoose = new Coordinate();
             Random randomNumberGenerator = new Random();
+
             while (tileToChoose.IsEmpty() && maxListSize > 0)
             {
                 randomNumber = randomNumberGenerator.Next(maxListSize);
-                tileToChoose = m_HiddenTilesList[randomNumber];
+                tileToChoose.CopyCoordinateData(m_HiddenTilesList[randomNumber]);
                 if (m_AIBoard.Matrix[tileToChoose.X, tileToChoose.Y] != Board.getDefaultTileData()) // AI tries to find tiles he havn't seen
                 {
                     tileToChoose.ClearCoordinateData();
@@ -126,17 +162,23 @@
 
         public void RemoveShownTilesFromList(Coordinate[] i_TilesToRemove)
         {
-            foreach(Coordinate ShownTile in i_TilesToRemove)
+            foreach (Coordinate ShownTile in i_TilesToRemove)
             {
                 foreach (Coordinate TileToDelete in m_HiddenTilesList)
                 {
-                    if(TileToDelete.X == ShownTile.X && TileToDelete.Y == ShownTile.Y)
+                    if (TileToDelete.X == ShownTile.X && TileToDelete.Y == ShownTile.Y)
                     {
                         m_HiddenTilesList.Remove(TileToDelete);
                         break;
                     }
                 }
             }
-        }  
+        }
+
+        public void clearSavedTiles()
+        {
+            m_FirstTilePicked.ClearCoordinateData();
+            m_SecondTileToPick.ClearCoordinateData();
+        }
     }
 }
