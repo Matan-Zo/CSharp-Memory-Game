@@ -106,6 +106,9 @@
             {
                 GamePlayer.Score = 0;
             }
+            InitiateLastPickedTiles();
+            m_NumberOfExposedTiles = 0;
+            m_CurrentPlayerTurn = GamePlayers[0];
         }
 
         public void GenerateBoards(StringBuilder i_StringBoardDimensions)
