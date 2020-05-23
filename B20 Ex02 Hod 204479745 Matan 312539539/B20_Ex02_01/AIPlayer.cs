@@ -86,7 +86,7 @@
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if (m_AIBoard.Matrix[i, j] == FirstTile && i != i_TileX && j != i_TileY)
+                    if ((m_AIBoard.Matrix[i, j] == FirstTile) && (i != i_TileX || j != i_TileY))
                     {
                         isMatching = true;
                         m_SecondTileToPick.X = i;
@@ -124,7 +124,7 @@
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if (firstTilePickedData == m_AIBoard.Matrix[i,j] && 
+                    if ((firstTilePickedData == m_AIBoard.Matrix[i,j]) && 
                         (m_FirstTilePicked.X != i || m_FirstTilePicked.Y != j))
                     {
                         pickedCoordinate.X = i;
