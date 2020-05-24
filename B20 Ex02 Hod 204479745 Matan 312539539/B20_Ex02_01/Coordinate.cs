@@ -83,7 +83,7 @@
                 yCoordinate = i_StringBoardLocation[0] - 'a';
             }
 
-            xCoordinate = int.Parse(i_StringBoardLocation.ToString().Substring(1, i_StringBoardLocation.Length - 1));
+            xCoordinate = int.Parse(i_StringBoardLocation.ToString().Substring(1, i_StringBoardLocation.Length - 1)) - 1;
 
             return (new Coordinate(xCoordinate, yCoordinate));
         }
