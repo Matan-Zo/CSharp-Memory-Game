@@ -3,8 +3,8 @@
     internal class Player
     {
         private string m_Name;
-        private int m_Score;
-        private bool m_IsHuman;
+        private int    m_Score;
+        private bool   m_IsHuman;
 
         public Player()
         {

@@ -24,21 +24,21 @@
 
         private void printBoard(char[,] i_VisualBoardMatrixToPrint)
         {
-            int             rows, cols;
-            StringBuilder   stringToPrint = new StringBuilder();
+            int           rows, cols;
+            StringBuilder stringToPrint = new StringBuilder();
 
             rows = i_VisualBoardMatrixToPrint.GetLength(0);
             cols = i_VisualBoardMatrixToPrint.GetLength(1);
-            for (char i = 'A'; i < cols + 'A'; i++)
+            for (char i = 'A' ; i < cols + 'A' ; i++)
             {
                 stringToPrint.AppendFormat("     {0}", i);
             }
 
             appendRowBreak(cols, ref stringToPrint);
-            for (int i = 0; i < rows; i++)
+            for (int i = 0 ; i < rows ; i++)
             {
                 stringToPrint.AppendFormat("{0} |", i + 1);
-                for (int j = 0; j < cols; j++)
+                for (int j = 0 ; j < cols ; j++)
                 {
                     stringToPrint.AppendFormat("  {0}  |", i_VisualBoardMatrixToPrint[i, j]);
                 }
@@ -59,7 +59,7 @@
 
         public StringBuilder GetUserInput()
         {
-            StringBuilder   userInput = new StringBuilder();
+            StringBuilder userInput = new StringBuilder();
 
             userInput.Append(Console.ReadLine());
 
@@ -75,7 +75,7 @@
 
         private void printCurrentPlayerNameAndScore(Player i_CurrentPlayer)
         {
-            StringBuilder   stringToPrint = new StringBuilder();
+            StringBuilder stringToPrint = new StringBuilder();
 
             stringToPrint.AppendFormat("Current Turn --> {0} : {1}", i_CurrentPlayer.Name, i_CurrentPlayer.Score);
             Console.WriteLine(stringToPrint);
@@ -89,7 +89,7 @@
 
         private void showScores(List<Player> i_PlayersList)
         {
-            StringBuilder   stringToPrint = new StringBuilder();
+            StringBuilder stringToPrint = new StringBuilder();
 
             stringToPrint.AppendFormat("{0}:{1}. {2}:{3}.", i_PlayersList[0].Name, i_PlayersList[0].Score,
                                                             i_PlayersList[1].Name, i_PlayersList[1].Score);

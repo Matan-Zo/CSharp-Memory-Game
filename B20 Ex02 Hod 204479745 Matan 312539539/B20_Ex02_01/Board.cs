@@ -6,14 +6,14 @@
     internal class Board
     {
         private static readonly char sr_DefaultData = ' ';
-        private char[,] m_Matrix;
+        private char[,]              m_Matrix;
         
         public Board(Coordinate i_Dimensions)
         {
             m_Matrix = new char[i_Dimensions.X, i_Dimensions.Y];
-            for (int i = 0; i < m_Matrix.GetLength(0); i++)
+            for (int i = 0 ; i < m_Matrix.GetLength(0) ; i++)
             {
-                for (int j = 0; j < m_Matrix.GetLength(1); j++)
+                for (int j = 0 ; j < m_Matrix.GetLength(1) ; j++)
                 {
                     m_Matrix[i, j] = sr_DefaultData;
                 }
@@ -73,22 +73,22 @@
             Random           randomLocation        = new Random();
             int              randomCoordinateIndex = 0;
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0 ; i < Height ; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0 ; j < Width ; j++)
                 {
                     CoordinatesToShuffle.Add(new Coordinate(i, j));
                 }
             }
 
-            for (char letterToFill = 'A'; CoordinatesToShuffle.Count > 0; letterToFill++)
+            for (char letterToFill = 'A' ; CoordinatesToShuffle.Count > 0 ; letterToFill++)
             {
-                for (int i = 0; i < 2; i++) // loop will run 2 times for pairs of letters.
+                for (int i = 0 ; i < 2 ; i++)                                               // loop will run 2 times for pairs of letters.
                 {
                     randomCoordinateIndex = randomLocation.Next(CoordinatesToShuffle.Count); 
                     m_Matrix[CoordinatesToShuffle[randomCoordinateIndex].X,
                              CoordinatesToShuffle[randomCoordinateIndex].Y] = letterToFill;
-                    CoordinatesToShuffle.RemoveAt(randomCoordinateIndex);                       // after using a coordinate from the list, remove it to make sure not to choose it again.
+                    CoordinatesToShuffle.RemoveAt(randomCoordinateIndex);                   // after using a coordinate from the list, remove it to make sure not to choose it again.
                 }
             }
         }
@@ -105,9 +105,9 @@
 
         public void ClearBoard()
         {
-            for (int i = 0; i < this.Height; i++)
+            for (int i = 0 ; i < this.Height ; i++)
             {
-                for (int j = 0; j < this.Width; j++)
+                for (int j = 0 ; j < this.Width ; j++)
                 {
                     m_Matrix[i, j] = sr_DefaultData;
                 }

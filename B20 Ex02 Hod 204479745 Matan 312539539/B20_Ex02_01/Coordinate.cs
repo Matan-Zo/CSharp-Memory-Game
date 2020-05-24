@@ -90,8 +90,8 @@
 
         public static Coordinate ConvertValidCoordinateFormatToCoordinate(StringBuilder i_StringCoordinate)
         {
-            int     CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
-            int     CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
+            int CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
+            int CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
 
             return new Coordinate(CoordinateX, CoordinateY);
         }
@@ -99,7 +99,7 @@
         public static bool CheckIfInRange (Coordinate i_CoordToCheck,Coordinate i_MaxCoordRange,
                                            Coordinate i_MinCoordRange)
         {
-            bool    isInRange = false;
+            bool isInRange = false;
 
             isInRange = ((i_CoordToCheck.X <= i_MaxCoordRange.X && i_CoordToCheck.Y <= i_MaxCoordRange.Y) &&
                         (i_CoordToCheck.X >= i_MinCoordRange.X && i_CoordToCheck.Y >= i_MinCoordRange.Y));

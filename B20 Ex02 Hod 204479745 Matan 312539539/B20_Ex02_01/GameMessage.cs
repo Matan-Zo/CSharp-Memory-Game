@@ -35,14 +35,14 @@
 
         private static void getPlayerNameMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder("Please enter a name.");
+            StringBuilder stringToPrint = new StringBuilder("Please enter a name.");
 
             Console.WriteLine(stringToPrint); 
         }
 
         private static void getGameModeMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder(@"What gamemode would you like to play?
+            StringBuilder stringToPrint = new StringBuilder(@"What gamemode would you like to play?
 Enter 1 for friend vs friend 
 Enter 2 for you vs AI");
 
@@ -51,8 +51,8 @@ Enter 2 for you vs AI");
 
         private static void enterBoardDimensionsMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder(@"Please enter the desired board dimensions in this format:
-dimension,dimension
+            StringBuilder stringToPrint = new StringBuilder(@"Please enter the desired board dimensions in this format:
+height,width
 Each dimension needs to be between 4 to 6, excluding 5x5:");
 
             Console.WriteLine(stringToPrint);
@@ -60,7 +60,7 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
 
         private static void enterTileMsg(int i_TileNumberToPrint)
         {
-            StringBuilder   stringToPrint = new StringBuilder(string.Format("Please enter {0}st tile:",
+            StringBuilder stringToPrint = new StringBuilder(string.Format("Please enter {0}st tile:",
                                                                             i_TileNumberToPrint));
 
             Console.WriteLine(stringToPrint);
@@ -68,7 +68,7 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
 
         private static void askAnotherGameMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder(@"Do you wish to play another round?
+            StringBuilder stringToPrint = new StringBuilder(@"Do you wish to play another round?
 Enter 1 for another game.
 Enter 2 to quit.");
 
@@ -77,7 +77,7 @@ Enter 2 to quit.");
 
         private static void playerCorrectMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder("Correct!");
+            StringBuilder stringToPrint = new StringBuilder("Correct!");
 
             Console.WriteLine(stringToPrint);
         }
@@ -125,21 +125,21 @@ Enter 2 to quit.");
 
         private static void invalidInputMsg()
         {
-            StringBuilder   stringToPrint =new StringBuilder("Invalid input, please type again.");
+            StringBuilder stringToPrint =new StringBuilder("Invalid input, please type again.");
 
             Console.WriteLine(stringToPrint);
         }
 
         private static void invalidInputGameModeMsg()
         {
-            StringBuilder   stringToPrint = new StringBuilder("Invalid gamemode, please enter either 1 or 2.");
+            StringBuilder stringToPrint = new StringBuilder("Invalid gamemode, please enter either 1 or 2.");
             
             Console.WriteLine(stringToPrint);
         }
 
         private static void invalidInputDimensionsMsg(int i_MessageType)
         {
-            StringBuilder   stringToPrint = new StringBuilder("Invalid dimensions");
+            StringBuilder stringToPrint = new StringBuilder("Invalid dimensions");
 
             if (i_MessageType == 1)
             {
@@ -155,7 +155,7 @@ Enter 2 to quit.");
 
         private static void invalidInputTileMsg(int i_MessageType)
         {
-            StringBuilder   stringToPrint = new StringBuilder("Invalid Tile, ");
+            StringBuilder stringToPrint = new StringBuilder("Invalid Tile, ");
 
             if (i_MessageType == 2)
             {

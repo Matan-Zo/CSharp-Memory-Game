@@ -6,13 +6,13 @@
     internal class GameDataManager
     {
         private List<Player> m_GamePlayers;
-        private Player m_CurrentPlayerTurn;
-        private Board m_VisualBoard;
-        private Board m_DataBoard;
-        private AIPlayer m_AiPlayer;
-        private int m_GameMode;
+        private Player       m_CurrentPlayerTurn;
+        private Board        m_VisualBoard;
+        private Board        m_DataBoard;
+        private AIPlayer     m_AiPlayer;
+        private int          m_GameMode;
         private Coordinate[] m_LastTilePicked;
-        private int m_NumberOfExposedTiles;
+        private int          m_NumberOfExposedTiles;
 
         public GameDataManager()
         {
@@ -25,7 +25,7 @@
         private void InitiateAllPlayers()
         {
             m_GamePlayers = new List<Player>(2);
-            for (int i = 0; i < m_GamePlayers.Capacity; i++)
+            for (int i = 0 ; i < m_GamePlayers.Capacity ; i++)
             {
                 m_GamePlayers.Add(new Player());
             }
@@ -36,7 +36,7 @@
         private void InitiateLastPickedTiles()
         {
             m_LastTilePicked = new Coordinate[2];
-            for (int i = 0; i < m_LastTilePicked.Length; i++)
+            for (int i = 0 ; i < m_LastTilePicked.Length ; i++)
             {
                 m_LastTilePicked[i] = new Coordinate();
             }
@@ -114,7 +114,7 @@
 
         public void GenerateBoards(StringBuilder i_StringBoardDimensions)
         {
-            Coordinate  boardDimensions = Coordinate.ConvertValidCoordinateFormatToCoordinate(i_StringBoardDimensions);
+            Coordinate boardDimensions = Coordinate.ConvertValidCoordinateFormatToCoordinate(i_StringBoardDimensions);
 
             m_VisualBoard = new Board(boardDimensions);
             m_DataBoard = new Board(boardDimensions);
@@ -143,9 +143,9 @@
 
         public bool CheckIfCurrentPlayerCorrect()
         {
-            bool    isCorrect = false;
-            char    TileData1 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[0]);
-            char    TileData2 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[1]);
+            bool isCorrect = false;
+            char TileData1 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[0]);
+            char TileData2 = m_DataBoard.GetDataAtLocation(m_LastTilePicked[1]);
 
             if (TileData1 == TileData2)
             {
@@ -172,14 +172,14 @@
 
         public void SetChosenTileAsShown(StringBuilder i_TileLocation, int i_CurrentTurnTileNumber)
         {
-            Coordinate  pickedTileLocation = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileLocation);
+            Coordinate pickedTileLocation = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileLocation);
 
             showTileOnVisualBoard(pickedTileLocation, i_CurrentTurnTileNumber);
         }
 
         private void showTileOnVisualBoard(Coordinate i_TileCoordinateToShow, int i_CurrentTurnTileNumber)
         {
-            char    Data = m_DataBoard.GetDataAtLocation(i_TileCoordinateToShow);
+            char Data = m_DataBoard.GetDataAtLocation(i_TileCoordinateToShow);
 
             m_VisualBoard.SetDataAtLocation(Data, i_TileCoordinateToShow);
             m_LastTilePicked[i_CurrentTurnTileNumber - 1].CopyCoordinateData(i_TileCoordinateToShow);
@@ -191,7 +191,7 @@
 
         public void HideCurrentTurnTiles()
         {
-            for (int i = 0; i < m_LastTilePicked.Length; i++)
+            for (int i = 0 ; i < m_LastTilePicked.Length ; i++)
             {
                 m_VisualBoard.ClearTileAtLocation(m_LastTilePicked[i]);
             }
@@ -199,7 +199,7 @@
 
         public bool CheckIfGameOver()
         {
-            bool    isGameOver = false;
+            bool isGameOver = false;
 
             if (m_NumberOfExposedTiles == m_DataBoard.Height * m_DataBoard.Width)
             {
@@ -223,7 +223,7 @@
 
         public void AIPlay(int i_CurrentTurnTileNumber)
         {
-            Coordinate  aiPickedTile = m_AiPlayer.PickTile(i_CurrentTurnTileNumber);
+            Coordinate aiPickedTile = m_AiPlayer.PickTile(i_CurrentTurnTileNumber);
 
             showTileOnVisualBoard(aiPickedTile, i_CurrentTurnTileNumber);
         }

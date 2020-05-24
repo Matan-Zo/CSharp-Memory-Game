@@ -39,7 +39,7 @@
 
         private void askAndGetPlayerNameFromInput()
         {
-            StringBuilder   validPlayerName = null;
+            StringBuilder validPlayerName = null;
 
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetPlayerName);
             validPlayerName = getValidInput(InputValidator.eValidationType.ValidatePlayerName);
@@ -48,7 +48,7 @@
 
         private void askAndGetGameModeFromInput()
         {
-            StringBuilder   validGameMode = null;
+            StringBuilder validGameMode = null;
 
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetGameMode);
             validGameMode = getValidInput(InputValidator.eValidationType.ValidateGameMode);
@@ -69,7 +69,7 @@
 
         private void activateAndRunInstance()
         {
-            bool    isInstanceActive = true;
+            bool isInstanceActive = true;
 
             while (isInstanceActive)
             {
@@ -87,7 +87,7 @@
 
         private void buildDataAndVisualBoard()
         {
-            StringBuilder   validDimensions = AskAndGetValidInputBoardDimensions();
+            StringBuilder validDimensions = AskAndGetValidInputBoardDimensions();
 
             m_CurrentDataManager.GenerateBoards(validDimensions);
             m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
@@ -96,7 +96,7 @@
 
         private StringBuilder AskAndGetValidInputBoardDimensions()
         {
-            StringBuilder   validBoardDimensions = null;
+            StringBuilder validBoardDimensions = null;
 
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
             validBoardDimensions = getValidInput(InputValidator.eValidationType.ValidateBoardDimensions);
@@ -106,7 +106,7 @@
 
         private void startGame()
         {
-            bool    isGameRunning = true;
+            bool isGameRunning = true;
 
             while (isGameRunning)
             {
@@ -131,10 +131,10 @@
 
         private void playTurn()
         {
-            int             amountOfTilesToPick = 2;
-            StringBuilder   tileLocationInput = null;
+            int           amountOfTilesToPick = 2;
+            StringBuilder tileLocationInput = null;
 
-            for (int currentTurnTileNumber = 1; currentTurnTileNumber <= amountOfTilesToPick; currentTurnTileNumber++)
+            for (int currentTurnTileNumber = 1 ; currentTurnTileNumber <= amountOfTilesToPick ; currentTurnTileNumber++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
                 {
@@ -155,8 +155,8 @@
 
         private void AskAndGetValidInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
         {
-            GameMessage.eGameMessageType    messageType = GameMessage.eGameMessageType.EnterTileOne;
-            InputValidator.eValidationType  validationType = InputValidator.eValidationType.ValidateTile;
+            GameMessage.eGameMessageType   messageType = GameMessage.eGameMessageType.EnterTileOne;
+            InputValidator.eValidationType validationType = InputValidator.eValidationType.ValidateTile;
 
             if (i_CurrentTurnTileNumber == 2)
             {
@@ -183,8 +183,8 @@
 
         private bool GameOver()
         {
-            bool            isPlayingAgain = false;
-            List<Player>    gamePlayers = m_CurrentDataManager.GamePlayers;
+            bool         isPlayingAgain = false;
+            List<Player> gamePlayers = m_CurrentDataManager.GamePlayers;
 
             m_CurrentViewManager.ClearViewAndShowScores(gamePlayers);
             isPlayingAgain = askAndGetValidInputCheckIfPlayingAgain();
@@ -194,8 +194,8 @@
 
         private bool askAndGetValidInputCheckIfPlayingAgain()
         {
-            StringBuilder   isPlayingAgain = null;
-            bool            convertedIsPlayingAgain = false;
+            StringBuilder isPlayingAgain = null;
+            bool          convertedIsPlayingAgain = false;
 
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.AskAnotherGame);
             isPlayingAgain = getValidInput(InputValidator.eValidationType.ValidateIsPlayingAgain);
