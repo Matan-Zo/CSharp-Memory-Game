@@ -9,7 +9,8 @@
 
         private static void launchGame()
         {
-            GameInstance currentGame = new GameInstance();
+            GameInstance    currentGame = new GameInstance();
+
             currentGame.InitiateGame();
         }
     }

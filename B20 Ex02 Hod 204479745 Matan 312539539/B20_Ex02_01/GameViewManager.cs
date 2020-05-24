@@ -4,6 +4,7 @@
     using System.Text;
     using System.Collections.Generic;
     using Ex02.ConsoleUtils;
+
     internal class GameViewManager
     {
         public void ShowMessage(GameMessage.eGameMessageType i_MessageType)
@@ -23,8 +24,9 @@
 
         private void printBoard(char[,] i_VisualBoardMatrixToPrint)
         {
-            int           rows, cols;
-            StringBuilder stringToPrint = new StringBuilder();
+            int             rows, cols;
+            StringBuilder   stringToPrint = new StringBuilder();
+
             rows = i_VisualBoardMatrixToPrint.GetLength(0);
             cols = i_VisualBoardMatrixToPrint.GetLength(1);
             for (char i = 'A'; i < cols + 'A'; i++)
@@ -57,7 +59,8 @@
 
         public StringBuilder GetUserInput()
         {
-            StringBuilder userInput = new StringBuilder();
+            StringBuilder   userInput = new StringBuilder();
+
             userInput.Append(Console.ReadLine());
 
             return userInput;
@@ -72,7 +75,8 @@
 
         private void printCurrentPlayerNameAndScore(Player i_CurrentPlayer)
         {
-            StringBuilder stringToPrint = new StringBuilder();
+            StringBuilder   stringToPrint = new StringBuilder();
+
             stringToPrint.AppendFormat("Current Turn --> {0} : {1}", i_CurrentPlayer.Name, i_CurrentPlayer.Score);
             Console.WriteLine(stringToPrint);
         }
@@ -85,7 +89,8 @@
 
         private void showScores(List<Player> i_PlayersList)
         {
-            StringBuilder stringToPrint = new StringBuilder();
+            StringBuilder   stringToPrint = new StringBuilder();
+
             stringToPrint.AppendFormat("{0}:{1}. {2}:{3}.", i_PlayersList[0].Name, i_PlayersList[0].Score,
                                                             i_PlayersList[1].Name, i_PlayersList[1].Score);
             stringToPrint.AppendLine();

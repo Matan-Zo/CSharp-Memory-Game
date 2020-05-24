@@ -2,10 +2,12 @@
 {
     using System.Text;
     using System.Collections.Generic;
+
     internal class GameInstance
     {
         private GameDataManager m_CurrentDataManager;
         private GameViewManager m_CurrentViewManager;
+
         public GameInstance()
         {
             m_CurrentDataManager = new GameDataManager();
@@ -16,14 +18,15 @@
         {
             askAndGetPlayerNameFromInput();
             askAndGetGameModeFromInput();
-            makePlayerTwo(); // askAndGetisOtherPlayerHumanFromInput()
+            makePlayerTwo();
             activateAndRunInstance();
         }
 
         private StringBuilder getValidInput(InputValidator.eValidationType i_ValidateType)
         {
-            StringBuilder userInput = null;
-            GameMessage.eValidationMessageType validationMessage = GameMessage.eValidationMessageType.Invalid;
+            StringBuilder                       userInput = null;
+            GameMessage.eValidationMessageType  validationMessage = GameMessage.eValidationMessageType.Invalid;
+
             while (validationMessage != GameMessage.eValidationMessageType.Valid)
             {
                 userInput = m_CurrentViewManager.GetUserInput();
@@ -36,7 +39,8 @@
 
         private void askAndGetPlayerNameFromInput()
         {
-            StringBuilder validPlayerName = null;
+            StringBuilder   validPlayerName = null;
+
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetPlayerName);
             validPlayerName = getValidInput(InputValidator.eValidationType.ValidatePlayerName);
             m_CurrentDataManager.PlayerName = validPlayerName.ToString();
@@ -44,7 +48,8 @@
 
         private void askAndGetGameModeFromInput()
         {
-            StringBuilder validGameMode = null;
+            StringBuilder   validGameMode = null;
+
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.GetGameMode);
             validGameMode = getValidInput(InputValidator.eValidationType.ValidateGameMode);
             m_CurrentDataManager.GameMode = int.Parse(validGameMode.ToString()); // will always be a valid number.
@@ -64,11 +69,12 @@
 
         private void activateAndRunInstance()
         {
-            bool isInstanceActive = true;
+            bool    isInstanceActive = true;
+
             while (isInstanceActive)
             {
                 setNewGameData();
-                buildDataAndVisualBoard(); // getBoardDimentions() 
+                buildDataAndVisualBoard(); 
                 startGame();
                 isInstanceActive = GameOver();
             }
@@ -81,15 +87,17 @@
 
         private void buildDataAndVisualBoard()
         {
-            StringBuilder validDimensions = AskAndGetValidInputBoardDimensions();
+            StringBuilder   validDimensions = AskAndGetValidInputBoardDimensions();
+
             m_CurrentDataManager.GenerateBoards(validDimensions);
             m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
-                                                  m_CurrentDataManager.VisualBoardMatrix);
+                                                         m_CurrentDataManager.VisualBoardMatrix);
         }
 
         private StringBuilder AskAndGetValidInputBoardDimensions()
         {
-            StringBuilder validBoardDimensions = null;
+            StringBuilder   validBoardDimensions = null;
+
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.EnterBoardDimensions);
             validBoardDimensions = getValidInput(InputValidator.eValidationType.ValidateBoardDimensions);
 
@@ -98,7 +106,8 @@
 
         private void startGame()
         {
-            bool isGameRunning = true;
+            bool    isGameRunning = true;
+
             while (isGameRunning)
             {
                 m_CurrentViewManager.UpdateAndShowTurnScreen(m_CurrentDataManager.CurrentPlayer,
@@ -109,7 +118,7 @@
                     m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.PlayerCorrect);
                     sleep(1);
                     m_CurrentDataManager.IncrementCurrentPlayerScore();
-                    isGameRunning = (!m_CurrentDataManager.CheckIfGameOver());
+                    isGameRunning = !(m_CurrentDataManager.CheckIfGameOver());
                 }
                 else
                 {
@@ -122,8 +131,9 @@
 
         private void playTurn()
         {
-            int amountOfTilesToPick = 2;
-            StringBuilder tileLocationInput;
+            int             amountOfTilesToPick = 2;
+            StringBuilder   tileLocationInput = null;
+
             for (int currentTurnTileNumber = 1; currentTurnTileNumber <= amountOfTilesToPick; currentTurnTileNumber++)
             {
                 if (m_CurrentDataManager.CheckIfCurrentPlayerHuman())
@@ -145,8 +155,9 @@
 
         private void AskAndGetValidInputPlayerPlay(int i_CurrentTurnTileNumber, out StringBuilder o_TileLocationInput)
         {
-            GameMessage.eGameMessageType messageType = GameMessage.eGameMessageType.EnterTileOne;
-            InputValidator.eValidationType validationType = InputValidator.eValidationType.ValidateTile;
+            GameMessage.eGameMessageType    messageType = GameMessage.eGameMessageType.EnterTileOne;
+            InputValidator.eValidationType  validationType = InputValidator.eValidationType.ValidateTile;
+
             if (i_CurrentTurnTileNumber == 2)
             {
                 messageType = GameMessage.eGameMessageType.EnterTileTwo;
@@ -172,21 +183,24 @@
 
         private bool GameOver()
         {
-            bool isPlayingAgain = false;
-            List<Player> gamePlayers;
-            gamePlayers = m_CurrentDataManager.GamePlayers;
+            bool            isPlayingAgain = false;
+            List<Player>    gamePlayers = m_CurrentDataManager.GamePlayers;
+
             m_CurrentViewManager.ClearViewAndShowScores(gamePlayers);
             isPlayingAgain = askAndGetValidInputCheckIfPlayingAgain();
+
             return isPlayingAgain;
         }
 
         private bool askAndGetValidInputCheckIfPlayingAgain()
         {
-            StringBuilder isPlayingAgain = null;
-            bool          convertedIsPlayingAgain = false;
+            StringBuilder   isPlayingAgain = null;
+            bool            convertedIsPlayingAgain = false;
+
             m_CurrentViewManager.ShowMessage(GameMessage.eGameMessageType.AskAnotherGame);
             isPlayingAgain = getValidInput(InputValidator.eValidationType.ValidateIsPlayingAgain);
             convertedIsPlayingAgain = (isPlayingAgain.ToString().CompareTo("1") == 0);
+
             return convertedIsPlayingAgain;
         }
     }

@@ -5,9 +5,9 @@
 
     internal class Board
     {
-        private char[,] m_Matrix;
         private static readonly char sr_DefaultData = ' ';
-
+        private char[,] m_Matrix;
+        
         public Board(Coordinate i_Dimensions)
         {
             m_Matrix = new char[i_Dimensions.X, i_Dimensions.Y];
@@ -69,9 +69,9 @@
         
         public void FillBoardRandomly()
         {
-            List<Coordinate> CoordinatesToShuffle = new List<Coordinate>(Height * Width);
-            Random randomLocation = new Random();
-            int randomCoordinateIndex = 0;
+            List<Coordinate> CoordinatesToShuffle  = new List<Coordinate>(Height * Width);
+            Random           randomLocation        = new Random();
+            int              randomCoordinateIndex = 0;
 
             for (int i = 0; i < Height; i++)
             {
@@ -86,8 +86,8 @@
                 for (int i = 0; i < 2; i++) // loop will run 2 times for pairs of letters.
                 {
                     randomCoordinateIndex = randomLocation.Next(CoordinatesToShuffle.Count); 
-                    m_Matrix[CoordinatesToShuffle[randomCoordinateIndex].X,                     // put the randomly chosen coordinate inside the matrix,
-                             CoordinatesToShuffle[randomCoordinateIndex].Y] = letterToFill;     // and gives it the current letter value.
+                    m_Matrix[CoordinatesToShuffle[randomCoordinateIndex].X,
+                             CoordinatesToShuffle[randomCoordinateIndex].Y] = letterToFill;
                     CoordinatesToShuffle.RemoveAt(randomCoordinateIndex);                       // after using a coordinate from the list, remove it to make sure not to choose it again.
                 }
             }

@@ -1,15 +1,14 @@
 ﻿namespace B20_Ex02_01
 {
-    using System.Collections.Generic;
     using System;
-
+    using System.Collections.Generic;
+    
     internal class AIPlayer
     {
         private Board m_AIBoard;
         private List<Coordinate> m_HiddenTilesList;
         private Coordinate m_SecondTileToPick;
         private Coordinate m_FirstTilePicked;
-
 
         public AIPlayer()
         {
@@ -26,7 +25,6 @@
         private void BuildHiddenTileList(Coordinate i_BoardDimensions)
         {
             m_HiddenTilesList = new List<Coordinate>(i_BoardDimensions.X * i_BoardDimensions.Y);
-
             for (int i = 0; i < i_BoardDimensions.X; i++)
             {
                 for (int j = 0; j < i_BoardDimensions.Y; j++)
@@ -38,7 +36,7 @@
 
         public Coordinate PickTile(int i_CurrentPickNumber)
         {
-            Coordinate pickedCoordinate = new Coordinate();
+            Coordinate  pickedCoordinate = new Coordinate();
 
             if (i_CurrentPickNumber == 1)
             {
@@ -62,7 +60,7 @@
 
         private Coordinate scanHiddenTilesList()
         {
-            Coordinate pickedCoordinate = new Coordinate();
+            Coordinate  pickedCoordinate = new Coordinate();
 
             foreach (Coordinate HiddenTile in m_HiddenTilesList)
             {
@@ -79,14 +77,14 @@
 
         private bool checkIfMatchingTileExists(int i_TileX, int i_TileY)
         {
-            bool isMatching = false;
-            char FirstTile = m_AIBoard.Matrix[i_TileX, i_TileY];
+            bool    isMatching = false;
+            char    FirstTile = m_AIBoard.Matrix[i_TileX, i_TileY];
 
             for (int i = 0; i < m_AIBoard.Height; i++)
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if ((m_AIBoard.Matrix[i, j] == FirstTile) && (i != i_TileX || j != i_TileY))
+                    if (m_AIBoard.Matrix[i, j] == FirstTile && (i != i_TileX || j != i_TileY))
                     {
                         isMatching = true;
                         m_SecondTileToPick.X = i;
@@ -101,7 +99,7 @@
 
         private Coordinate checkFirstPickSavedDataAndChooseSecondTile()
         {
-            Coordinate pickedCoordinate = new Coordinate();
+            Coordinate  pickedCoordinate = new Coordinate();
 
             if (m_SecondTileToPick.IsEmpty())
             {
@@ -117,14 +115,14 @@
 
         private Coordinate searchForMatchingTile()
         {
-            Coordinate pickedCoordinate = new Coordinate();
-            char firstTilePickedData = m_AIBoard.GetDataAtLocation(m_FirstTilePicked);
+            Coordinate  pickedCoordinate = new Coordinate();
+            char        firstTilePickedData = m_AIBoard.GetDataAtLocation(m_FirstTilePicked);
 
             for (int i = 0; i < m_AIBoard.Height; i++)
             {
                 for (int j = 0; j < m_AIBoard.Width; j++)
                 {
-                    if ((firstTilePickedData == m_AIBoard.Matrix[i,j]) && 
+                    if (firstTilePickedData == m_AIBoard.Matrix[i, j] &&
                         (m_FirstTilePicked.X != i || m_FirstTilePicked.Y != j))
                     {
                         pickedCoordinate.X = i;
@@ -139,15 +137,15 @@
 
         private Coordinate chooseRandomUnseenTile()
         {
-            int maxListSize = m_HiddenTilesList.Count, randomNumber;
-            Coordinate tileToChoose = new Coordinate();
-            Random randomNumberGenerator = new Random();
+            int         maxListSize = m_HiddenTilesList.Count, randomNumber;
+            Coordinate  tileToChoose = new Coordinate();
+            Random      randomNumberGenerator = new Random();
 
-            while (tileToChoose.IsEmpty() && maxListSize > 0)
+            while (tileToChoose.IsEmpty() && maxListSize > 0) 
             {
                 randomNumber = randomNumberGenerator.Next(maxListSize);
                 tileToChoose.CopyCoordinateData(m_HiddenTilesList[randomNumber]);
-                if (m_AIBoard.Matrix[tileToChoose.X, tileToChoose.Y] != Board.getDefaultTileData()) // AI tries to find tiles he havn't seen
+                if (m_AIBoard.Matrix[tileToChoose.X, tileToChoose.Y] != Board.getDefaultTileData()) // AI tries to find tiles he havn't seen.
                 {
                     tileToChoose.ClearCoordinateData();
                 }

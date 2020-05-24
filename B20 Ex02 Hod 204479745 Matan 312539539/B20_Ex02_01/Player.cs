@@ -1,7 +1,5 @@
 ﻿namespace B20_Ex02_01
 {
-    using System.Text;
-
     internal class Player
     {
         private string m_Name;

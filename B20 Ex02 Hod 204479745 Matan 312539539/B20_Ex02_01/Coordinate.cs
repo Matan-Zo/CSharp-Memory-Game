@@ -83,15 +83,15 @@
                 yCoordinate = i_StringBoardLocation[0] - 'a';
             }
 
-            xCoordinate = ((int)char.GetNumericValue(i_StringBoardLocation[1]) - 1);
+            xCoordinate = int.Parse(i_StringBoardLocation.ToString().Substring(1, i_StringBoardLocation.Length - 1));
 
-            return new Coordinate(xCoordinate, yCoordinate);
+            return (new Coordinate(xCoordinate, yCoordinate));
         }
 
         public static Coordinate ConvertValidCoordinateFormatToCoordinate(StringBuilder i_StringCoordinate)
         {
-            int CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
-            int CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
+            int     CoordinateX = int.Parse(i_StringCoordinate[0].ToString());
+            int     CoordinateY = int.Parse(i_StringCoordinate[2].ToString());
 
             return new Coordinate(CoordinateX, CoordinateY);
         }
@@ -99,7 +99,8 @@
         public static bool CheckIfInRange (Coordinate i_CoordToCheck,Coordinate i_MaxCoordRange,
                                            Coordinate i_MinCoordRange)
         {
-            bool isInRange = false;
+            bool    isInRange = false;
+
             isInRange = ((i_CoordToCheck.X <= i_MaxCoordRange.X && i_CoordToCheck.Y <= i_MaxCoordRange.Y) &&
                         (i_CoordToCheck.X >= i_MinCoordRange.X && i_CoordToCheck.Y >= i_MinCoordRange.Y));
 
