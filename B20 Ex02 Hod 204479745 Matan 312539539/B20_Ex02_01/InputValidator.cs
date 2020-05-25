@@ -146,7 +146,7 @@
                     messageType = GameMessage.eValidationMessageType.InvalidTileOutOfBounds;
                 }
             }
-            else if (isPressedQuit(i_StringToValidate))
+            else if (CheckIfPressedQuit(i_StringToValidate))
             {
                 messageType = GameMessage.eValidationMessageType.Valid;
             }
@@ -226,7 +226,7 @@
             return messageType;
         }
 
-        public static bool isPressedQuit(StringBuilder i_StringUserInput)
+        public static bool CheckIfPressedQuit(StringBuilder i_StringUserInput)
         {
             bool isPressed = false;
 

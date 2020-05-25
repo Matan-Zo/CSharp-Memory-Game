@@ -169,7 +169,7 @@
 
         private void checkIfStringsAreEqualAndHandleQuit(StringBuilder i_FirstStringToCheck)
         {
-            if (InputValidator.isPressedQuit(i_FirstStringToCheck))
+            if (InputValidator.CheckIfPressedQuit(i_FirstStringToCheck))
             {
                 System.Environment.Exit(0);
             }
