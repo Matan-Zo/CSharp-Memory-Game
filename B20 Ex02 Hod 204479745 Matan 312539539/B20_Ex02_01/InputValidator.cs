@@ -112,7 +112,7 @@
             Coordinate minDimension = new Coordinate(4, 4);
             Coordinate dimension = Coordinate.ConvertValidCoordinateFormatToCoordinate(i_ValidDimensionFormat);
 
-            if (Coordinate.CheckIfInRange(dimension,maxDimension,minDimension))
+            if (Coordinate.CheckIfInRange(dimension, maxDimension, minDimension))
             {
                 if (dimension.X != 5 || dimension.Y != 5 )
                 {
@@ -130,9 +130,9 @@
 
             if (checkIfTileFormatValid(i_StringToValidate))
             {
-                if (checkIfTileNumbersAreInRangeOfBoard(i_StringToValidate,i_VisualBoardMatrix))
+                if (checkIfTileNumbersAreInRangeOfBoard(i_StringToValidate, i_VisualBoardMatrix))
                 {
-                    if (checkIfTileIsHidden(i_StringToValidate,i_VisualBoardMatrix))
+                    if (checkIfTileIsHidden(i_StringToValidate, i_VisualBoardMatrix))
                     {
                         messageType = GameMessage.eValidationMessageType.Valid;
                     }
@@ -146,7 +146,7 @@
                     messageType = GameMessage.eValidationMessageType.InvalidTileOutOfBounds;
                 }
             }
-            else if (i_StringToValidate.ToString().CompareTo(sr_QuitString.ToString()) == 0)
+            else if (isPressedQuit(i_StringToValidate))
             {
                 messageType = GameMessage.eValidationMessageType.Valid;
             }
@@ -160,9 +160,10 @@
             bool       isTileNumbersInRange = false;
             Coordinate tileCoordinate = Coordinate.ConvertTileCoordinateInputToCoordinate(i_TileToCheck);
             Coordinate boardMinRange = new Coordinate(0, 0);
-            Coordinate boardMaxRange = new Coordinate(i_VisualBoardMatrix.GetLength(0) - 1,i_VisualBoardMatrix.GetLength(1) - 1);
+            Coordinate boardMaxRange = new Coordinate(i_VisualBoardMatrix.GetLength(0) - 1,
+                                                      i_VisualBoardMatrix.GetLength(1) - 1);
 
-            isTileNumbersInRange = Coordinate.CheckIfInRange(tileCoordinate, boardMaxRange,boardMinRange);
+            isTileNumbersInRange = Coordinate.CheckIfInRange(tileCoordinate, boardMaxRange, boardMinRange);
 
             return isTileNumbersInRange;
         }

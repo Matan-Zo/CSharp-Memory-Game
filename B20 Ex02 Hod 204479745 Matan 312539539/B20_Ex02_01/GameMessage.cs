@@ -61,7 +61,7 @@ Each dimension needs to be between 4 to 6, excluding 5x5:");
         private static void enterTileMsg(int i_TileNumberToPrint)
         {
             StringBuilder stringToPrint = new StringBuilder(string.Format("Please enter {0}st tile:",
-                                                                            i_TileNumberToPrint));
+                                                                          i_TileNumberToPrint));
 
             Console.WriteLine(stringToPrint);
         }
@@ -125,7 +125,7 @@ Enter 2 to quit.");
 
         private static void invalidInputMsg()
         {
-            StringBuilder stringToPrint =new StringBuilder("Invalid input, please type again.");
+            StringBuilder stringToPrint = new StringBuilder("Invalid input, please type again.");
 
             Console.WriteLine(stringToPrint);
         }
